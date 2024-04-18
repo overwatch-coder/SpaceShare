@@ -16,6 +16,19 @@ export const registerUser = asyncHandler(
   async (req: Request<any, any, CreateUserType>, res: Response) => {
     const data = req.body;
 
+    // check if required fields are present
+    if (!data.email || data.name || !data.username || !data.password) {
+      throw createHttpError(
+        "Missing required fields",
+        HttpStatusCode.BadRequest
+      );
+    }
+
+    // check if email is valid
+    if (!validator.isEmail(data.email)) {
+      throw createHttpError("Invalid email address", HttpStatusCode.BadRequest);
+    }
+
     // check if password is strong enough
     if (!validator.isStrongPassword(data.password)) {
       throw createHttpError(
@@ -40,7 +53,7 @@ export const registerUser = asyncHandler(
 
     if (usernameAlreadyExists) {
       throw createHttpError(
-        "Username already taken. Please choose another one",
+        "Username already taken. Please choose a different username",
         HttpStatusCode.BadRequest
       );
     }
