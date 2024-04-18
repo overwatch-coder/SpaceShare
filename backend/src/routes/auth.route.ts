@@ -15,8 +15,8 @@ router.use(protectUser);
 
 router.get("/client", clientProfile);
 router.get("host", protectHost, hostProfile);
-router.patch("/update", userUpdate);
-router.post("/upload", uploadAvatar);
+router.patch("/update-profile", userUpdate);
+router.post("/upload-image", uploadAvatar);
 router.delete("/delete", userDelete);
 
 export default router;
