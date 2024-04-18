@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
-import User, { UserType } from "@/models/user.model";
+import User from "@/models/user.model";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
-import { UpdateUserType } from "@/types";
+import { UpdateUserType, UserType } from "@/types";
 
 // update an existing user
 export const updateUser = async (data: UpdateUserType, user: UserType) => {
