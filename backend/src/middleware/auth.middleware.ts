@@ -61,6 +61,8 @@ export const protectUser = asyncHandler(
       phone: user.phone,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      properties: user.properties,
+      bookings: user.bookings,
     };
 
     req.user = userData;

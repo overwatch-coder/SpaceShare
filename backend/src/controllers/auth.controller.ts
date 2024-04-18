@@ -1,5 +1,5 @@
 import { uploadSingleImage } from "@/lib/image-upload";
-import User, { UserType } from "@/models/user.model";
+import User from "@/models/user.model";
 import { deleteUser, updateUser } from "@/services/auth.service";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
@@ -16,15 +16,44 @@ import { UpdateUserType } from "@/types";
 export const hostProfile = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
-  // get all properties belonging to this host
-  const properties = <any>[];
+  const userData = await User.findOne({ email: user.email })
+    .select("-password -__v")
+    .populate({
+      path: "properties",
+      populate: {
+        path: "owner",
+        select: "-password -__v",
+      },
+    })
+    .populate({
+      path: "bookings",
+      select: "-__v",
+      populate: [
+        {
+          path: "property",
+          select: "-__v",
+          populate: {
+            path: "owner",
+            select: "-password -__v",
+          },
+        },
+        {
+          path: "client",
+          select: "-password -__v",
+        },
+      ],
+    })
+    .lean()
+    .exec();
+
+  // check if user exists
+  if (!userData) {
+    throw createHttpError("User not found", HttpStatusCode.NotFound);
+  }
 
   res.status(200).json({
     success: true,
-    data: {
-      properties,
-      user,
-    },
+    data: userData,
     message: "Host profile details",
   });
 });
@@ -38,17 +67,45 @@ export const clientProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const user = req.user;
 
+    const userData = await User.findOne({ email: user.email })
+      .select("-password -__v")
+      .populate({
+        path: "bookings",
+        select: "-__v",
+        populate: [
+          {
+            path: "property",
+            select: "-__v",
+            populate: {
+              path: "owner",
+              select: "-password -__v",
+            },
+          },
+          {
+            path: "client",
+            select: "-password -__v",
+          },
+        ],
+      })
+      .lean()
+      .exec();
+
+    // check if user exists
+    if (!userData) {
+      throw createHttpError("User not found", HttpStatusCode.NotFound);
+    }
+
     res.status(200).json({
       success: true,
-      data: user,
-      message: "User details",
+      data: userData,
+      message: "Client profile details",
     });
   }
 );
 
 /**
   @desc    UPDATE DETAILS OF AN EXISTING USER
-  @route   /api/auth/update
+  @route   /api/auth/update-profile
   @access  private
 */
 export const userUpdate = asyncHandler(
@@ -86,7 +143,7 @@ export const userUpdate = asyncHandler(
 
 /**
   @desc    ALLOW A USER TO UPDATE THEIR IMAGE/AVATAR
-  @route   /api/auth/upload
+  @route   /api/auth/upload-image
   @access  private
 */
 export const uploadAvatar = asyncHandler(

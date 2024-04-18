@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema(
     profilePicture: { type: String },
     personalStory: { type: String },
     phone: { type: String },
+    properties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Property" }],
+    bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
   },
   { timestamps: true }
 );

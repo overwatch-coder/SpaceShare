@@ -1,4 +1,4 @@
-import { Mongoose } from "mongoose";
+import { Mongoose, Types } from "mongoose";
 
 // Extend Express Request interface
 declare global {
@@ -35,9 +35,11 @@ interface User {
   profilePicture?: string | null;
   personalStory?: string | null;
   phone?: string | null;
-  _id?: string | null;
+  _id: string;
   createdAt?: NativeDate | null;
   updatedAt?: NativeDate | null;
+  properties: Types.ObjectId[];
+  bookings: Types.ObjectId[];
 }
 
 // property types
