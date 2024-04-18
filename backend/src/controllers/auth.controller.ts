@@ -6,44 +6,45 @@ import asyncHandler from "express-async-handler";
 import fileUpload from "express-fileupload";
 import validator from "validator";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
+import { UpdateUserType } from "@/types";
 
 /**
   @desc    GET HOST PROFILE DETAILS
   @route   /api/auth/host
   @access  private
 */
-export const hostProfile = asyncHandler(
-  async (req: Request, res: Response) => {
-    const user = req.user;
+export const hostProfile = asyncHandler(async (req: Request, res: Response) => {
+  const user = req.user;
 
-    // get all properties belonging to this host
-    const properties = <any>[];
+  // get all properties belonging to this host
+  const properties = <any>[];
 
-    res.status(200).json({
-      success: true,
-      data: {
-        properties,
-        user,
-      },
-      message: "Host profile details",
-    });
-  }
-);
+  res.status(200).json({
+    success: true,
+    data: {
+      properties,
+      user,
+    },
+    message: "Host profile details",
+  });
+});
 
 /**
   @desc    GET CURRENTLY LOGGED IN CLIENT
   @route   /api/auth/client
   @access  private
 */
-export const clientProfile = asyncHandler(async (req: Request, res: Response) => {
-  const user = req.user;
+export const clientProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const user = req.user;
 
-  res.status(200).json({
-    success: true,
-    data: user,
-    message: "User details",
-  });
-});
+    res.status(200).json({
+      success: true,
+      data: user,
+      message: "User details",
+    });
+  }
+);
 
 /**
   @desc    UPDATE DETAILS OF AN EXISTING USER
@@ -51,26 +52,26 @@ export const clientProfile = asyncHandler(async (req: Request, res: Response) =>
   @access  private
 */
 export const userUpdate = asyncHandler(
-  async (req: Request<any, any, Partial<UserType>>, res: Response) => {
+  async (req: Request<any, any, UpdateUserType>, res: Response) => {
     const user = req.user;
     const userData = req.body;
 
     if (userData.email && !validator.isEmail(userData.email)) {
-      throw(createHttpError("Invalid email address", HttpStatusCode.BadRequest));
+      throw createHttpError("Invalid email address", HttpStatusCode.BadRequest);
     }
 
     if (userData.email && userData.email === user.email) {
-      throw(createHttpError(
+      throw createHttpError(
         "The new email address must be different from the current one",
         HttpStatusCode.BadRequest
-      ));
+      );
     }
 
     if (userData.password && !validator.isStrongPassword(userData.password)) {
-      throw(createHttpError(
+      throw createHttpError(
         "Password is not strong enough",
         HttpStatusCode.BadRequest
-      ));
+      );
     }
 
     const updatedUser = await updateUser(userData, user);
@@ -94,11 +95,17 @@ export const uploadAvatar = asyncHandler(
     const avatar = req?.files?.avatar as fileUpload.UploadedFile;
 
     if (!avatar) {
-      throw(createHttpError("Please upload an image", HttpStatusCode.BadRequest));
+      throw createHttpError(
+        "Please upload an image",
+        HttpStatusCode.BadRequest
+      );
     }
 
     if (!validator.isMimeType(avatar.mimetype)) {
-      throw(createHttpError("Please upload a valid image", HttpStatusCode.BadRequest));
+      throw createHttpError(
+        "Please upload a valid image",
+        HttpStatusCode.BadRequest
+      );
     }
 
     const url = await uploadSingleImage(avatar, "users");
@@ -110,10 +117,10 @@ export const uploadAvatar = asyncHandler(
     ).select("-password -__v");
 
     if (!updatedData) {
-      throw(createHttpError(
+      throw createHttpError(
         "Error while uploading your image.",
         HttpStatusCode.BadRequest
-      ));
+      );
     }
 
     res.status(200).json({

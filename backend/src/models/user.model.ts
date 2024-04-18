@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocumentFromSchema } from "mongoose";
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
@@ -8,8 +8,15 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["host", "client"], default: "client" },
-    avatar: { type: String },
-    bio: { type: String },
+    age: { type: Number },
+    gender: { type: String },
+    hobbies: [{ type: String }],
+    interests: [{ type: String }],
+    smoker: { type: Boolean, default: false },
+    pets: { type: Boolean, default: false },
+    drinker: { type: Boolean, default: false },
+    profilePicture: { type: String },
+    personalStory: { type: String },
     phone: { type: String },
   },
   { timestamps: true }
@@ -25,8 +32,6 @@ userSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
-
-export type UserType = HydratedDocumentFromSchema<typeof userSchema>;
 
 const User = mongoose.model("User", userSchema);
 

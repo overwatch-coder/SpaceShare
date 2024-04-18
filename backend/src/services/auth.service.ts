@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
 import User, { UserType } from "@/models/user.model";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
+import { UpdateUserType } from "@/types";
 
 // update an existing user
-export const updateUser = async (data: Partial<UserType>, user: UserType) => {
+export const updateUser = async (data: UpdateUserType, user: UserType) => {
   let newEmail = user.email;
 
   if (data.password) {

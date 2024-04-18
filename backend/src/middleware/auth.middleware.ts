@@ -3,6 +3,7 @@ import { NextFunction, Response, Request } from "express";
 import asyncHandler from "express-async-handler";
 import User from "@/models/user.model";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
+import { UserType } from "@/types";
 
 interface PayloadData {
   userId: string;
@@ -42,7 +43,27 @@ export const protectUser = asyncHandler(
       );
     }
 
-    req.user = user;
+    const userData: UserType = {
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      age: user.age,
+      gender: user.gender,
+      hobbies: user.hobbies,
+      interests: user.interests,
+      role: user.role,
+      smoker: user.smoker,
+      pets: user.pets,
+      drinker: user.drinker,
+      profilePicture: user.profilePicture,
+      personalStory: user.personalStory,
+      phone: user.phone,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    req.user = userData;
     next();
   }
 );

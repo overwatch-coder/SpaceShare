@@ -19,6 +19,8 @@ import { errorHandler, notFound } from "@/middleware/error.middleware";
 // route imports
 import userRoutes from "@/routes/user.route";
 import authRoutes from "@/routes/auth.route";
+import propertyRoutes from "@/routes/property.route";
+import bookingRoutes from "@/routes/booking.route";
 
 const initializeServer = async () => {
   // initialise app
@@ -44,6 +46,8 @@ const initializeServer = async () => {
   // routes
   app.use("/api/users", userRoutes);
   app.use("/api/auth", authRoutes);
+  app.use("/api/properties", propertyRoutes);
+  app.use("/api/bookings", bookingRoutes);
 
   // Error middleware
   app.use(notFound);
