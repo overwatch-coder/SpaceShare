@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import Booking from "@/models/booking.model";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
 import { isValidObjectId } from "mongoose";
 import { CreateBookingType, UpdateBookingType } from "@/types";
@@ -8,6 +7,7 @@ import {
   addBooking,
   findAllBookings,
   findBooking,
+  removeBooking,
   updateExistingBooking,
 } from "@/services/booking.service";
 
@@ -86,6 +86,26 @@ export const createBooking = asyncHandler(
     const bookingData = req.body;
     const user = req.user;
 
+    // check if all required fields are present
+    if (
+      !bookingData.checkInDate ||
+      !bookingData.checkOutDate ||
+      !bookingData.property
+    ) {
+      throw createHttpError(
+        "Missing required fields (checkInDate, checkOutDate, property id)",
+        HttpStatusCode.BadRequest
+      );
+    }
+
+    // check if user is not a host to create a booking
+    if (user.role !== "client") {
+      throw createHttpError(
+        "Only clients can rent a property",
+        HttpStatusCode.Unauthorized
+      );
+    }
+
     // call create booking service
     const createdBooking = await addBooking(bookingData, user);
 
@@ -141,20 +161,14 @@ export const deleteBooking = asyncHandler(
   async (req: Request<{ id: string }>, res: Response) => {
     // get id from url
     const id = req.params.id;
+    const user = req.user;
 
     // check if id is valid
     if (!id || !isValidObjectId(id)) {
       throw createHttpError("Invalid booking id", HttpStatusCode.BadRequest);
     }
 
-    const deletedBooking = await Booking.findOneAndDelete({ _id: id });
-    // check if there are no bookings
-    if (!deletedBooking) {
-      throw createHttpError(
-        "An error occurred while deleting the booking",
-        HttpStatusCode.InternalServerError
-      );
-    }
+    await removeBooking(id, user);
 
     res.status(200).json({
       success: true,

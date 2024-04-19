@@ -35,6 +35,19 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+// delete properties and bookings associated with user when user gets deleted
+userSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+
+  async function (next) {
+    await this.model("Property").deleteMany({ owner: this._id });
+    await this.model("Booking").deleteMany({ client: this._id });
+
+    next();
+  }
+);
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

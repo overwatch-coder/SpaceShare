@@ -9,7 +9,7 @@ export const findUser = async (
   findById: boolean = false
 ) => {
   const user = await User.findOne(findById ? { _id: data } : { email: data })
-    .select(selectPassword ? "" : "-password")
+    .select(selectPassword ? "" : "-password -__v")
     .lean()
     .exec();
 
@@ -27,7 +27,7 @@ export const findUser = async (
 
 // create a new user
 export const createUser = async (data: CreateUserType) => {
-  const user = await User.create(data);
+  const user = await User.create({ ...data, email: data.email.toLowerCase() });
 
   if (!user) {
     throw createHttpError(

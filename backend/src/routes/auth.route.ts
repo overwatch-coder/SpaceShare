@@ -14,7 +14,7 @@ const router = express.Router();
 router.use(protectUser);
 
 router.get("/client", clientProfile);
-router.get("host", protectHost, hostProfile);
+router.get("/host", protectHost, hostProfile);
 router.patch("/update-profile", userUpdate);
 router.post("/upload-image", uploadAvatar);
 router.delete("/delete", userDelete);

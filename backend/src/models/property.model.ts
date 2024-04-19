@@ -6,7 +6,7 @@ const propertySchema = new mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     slug: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { type: String },
     ratePerNight: { type: Number, required: true },
     amenities: [
       {
@@ -22,7 +22,7 @@ const propertySchema = new mongoose.Schema(
     numberOfBathrooms: { type: Number, default: 1 },
     numberOfBedrooms: { type: Number, default: 1 },
     numberOfToilets: { type: Number, default: 1 },
-    numberOfRooms: { type: Number, required: true },
+    numberOfRooms: { type: Number, default: 4 },
     capacity: { type: Number },
     status: {
       type: String,
@@ -34,7 +34,7 @@ const propertySchema = new mongoose.Schema(
     coverImage: { type: String, required: true },
     images: [{ type: String }],
     location: { type: String, required: true },
-    category: { type: String, required: true },
+    category: { type: String },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

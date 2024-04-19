@@ -67,6 +67,13 @@ export const clientProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const user = req.user;
 
+    if (user.role !== "client") {
+      throw createHttpError(
+        "Unauthorized - Not a client",
+        HttpStatusCode.Unauthorized
+      );
+    }
+
     const userData = await User.findOne({ email: user.email })
       .select("-password -__v")
       .populate({
@@ -112,6 +119,7 @@ export const userUpdate = asyncHandler(
   async (req: Request<any, any, UpdateUserType>, res: Response) => {
     const user = req.user;
     const userData = req.body;
+    console.log({ userData });
 
     if (userData.email && !validator.isEmail(userData.email)) {
       throw createHttpError("Invalid email address", HttpStatusCode.BadRequest);
@@ -169,16 +177,9 @@ export const uploadAvatar = asyncHandler(
 
     const updatedData = await User.findOneAndUpdate(
       { _id: user._id },
-      { image: url },
+      { profilePicture: url },
       { new: true }
     ).select("-password -__v");
-
-    if (!updatedData) {
-      throw createHttpError(
-        "Error while uploading your image.",
-        HttpStatusCode.BadRequest
-      );
-    }
 
     res.status(200).json({
       success: true,
@@ -198,6 +199,7 @@ export const userDelete = asyncHandler(async (req: Request, res: Response) => {
 
   await deleteUser(user._id.toString());
 
+  res.clearCookie("access_token");
   res.status(200).json({
     success: true,
     data: null,

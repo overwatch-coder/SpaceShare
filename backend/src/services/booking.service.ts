@@ -1,6 +1,7 @@
 import Booking from "@/models/booking.model";
 import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
 import { CreateBookingType, UpdateBookingType, UserType } from "@/types";
+import { findPropertiesByUserId } from "@/services/property.service";
 
 // find all bookings
 export const findAllBookings = async (
@@ -9,34 +10,45 @@ export const findAllBookings = async (
 ) => {
   try {
     if (owner) {
-      const bookings = await Booking.find({ "property.owner": userId })
-        .populate({
-          path: "property",
-          populate: [
-            {
-              path: "owner",
-              select: "-password -__v",
-            },
-          ],
-        })
-        .populate({ path: "client", select: "-password -__v" })
-        .lean()
-        .exec();
+      // get all properties of the logged in user
+      const ownerProperties = await findPropertiesByUserId(userId);
 
-      return bookings;
+      // get all bookings of the property owner
+      const bookingsPromise = ownerProperties.map(async (property) => {
+        const bookings = await Booking.find({ property: property._id })
+          .populate({
+            path: "property",
+            populate: [
+              {
+                path: "owner",
+                select: "name username _id email",
+              },
+            ],
+          })
+          .populate({ path: "client", select: "name username _id email" })
+          .lean()
+          .exec();
+
+        return bookings;
+      });
+
+      const bookings = await Promise.all(bookingsPromise);
+
+      return bookings.filter((booking) => booking.length > 0)[0];
     }
 
+    // get all bookings of the logged in user
     const bookings = await Booking.find({ client: userId })
       .populate({
         path: "property",
         populate: [
           {
             path: "owner",
-            select: "-password -__v",
+            select: "name username _id email",
           },
         ],
       })
-      .populate({ path: "client", select: "-password -__v" })
+      .populate({ path: "client", select: "name username _id email" })
       .lean()
       .exec();
 
@@ -58,21 +70,18 @@ export const findBooking = async (
 ) => {
   try {
     if (owner) {
-      const booking = await Booking.findOne({
-        $and: [{ _id: id }, { "property.owner": userId }],
-      })
-        .populate({
-          path: "property",
-          populate: [
-            {
-              path: "owner",
-              select: "-password -__v",
-            },
-          ],
-        })
-        .populate({ path: "client", select: "-password -__v" })
-        .lean()
-        .exec();
+      // find all bookings of the property owner
+      const bookings = await findAllBookings(userId, owner);
+
+      // check if there are no bookings
+      if (!bookings || bookings.length === 0) {
+        return null;
+      }
+
+      // find the booking using id and return it
+      const booking = bookings.filter(
+        (booking) => booking._id.toString() === id
+      )[0];
 
       return booking;
     }
@@ -85,11 +94,11 @@ export const findBooking = async (
         populate: [
           {
             path: "owner",
-            select: "-password -__v",
+            select: "name username _id email",
           },
         ],
       })
-      .populate({ path: "client", select: "-password -__v" })
+      .populate({ path: "client", select: "name username _id email" })
       .lean()
       .exec();
 
@@ -112,7 +121,9 @@ export const addBooking = async (
     // create new booking
     const createdBooking = await Booking.create({
       ...bookingData,
-      status: "pending",
+      checkInDate: new Date(bookingData.checkInDate).toISOString(),
+      checkOutDate: new Date(bookingData.checkOutDate).toISOString(),
+      status: bookingData.status || "pending",
       client: user._id!,
     });
 
@@ -149,15 +160,23 @@ export const updateExistingBooking = async (
     );
 
     if (!existingBooking) {
-      throw createHttpError("Booking not found", HttpStatusCode.NotFound);
+      throw createHttpError(
+        "Not authorized to delete this booking",
+        HttpStatusCode.Unauthorized
+      );
     }
 
+    // update booking
+    // NB: The status is only updated if the user is a host
     const updatedBooking = await Booking.findOneAndUpdate(
-      { _id: id },
-      { ...bookingData, status: bookingData.status },
+      { _id: existingBooking._id },
+      {
+        ...bookingData,
+        status:
+          user.role === "client" ? existingBooking.status : bookingData.status,
+      },
       { new: true }
     )
-      .populate({ path: "owner", select: "-password -__v" })
       .lean()
       .exec();
 
@@ -172,6 +191,44 @@ export const updateExistingBooking = async (
     return updatedBooking;
   } catch (error: any) {
     console.log("Error while updating booking: ", error.message);
+    throw createHttpError(
+      error.message || "Internal Server Error",
+      error.statusCode || HttpStatusCode.InternalServerError
+    );
+  }
+};
+
+// delete a booking
+export const removeBooking = async (id: string, user: UserType) => {
+  try {
+    // check if booking exists
+    const existingBooking = await findBooking(
+      id,
+      user.role === "host",
+      user._id!
+    );
+
+    if (!existingBooking) {
+      throw createHttpError(
+        "Not authorized to delete this booking",
+        HttpStatusCode.Unauthorized
+      );
+    }
+
+    const removedBooking = await Booking.findOneAndDelete({
+      _id: existingBooking._id,
+    });
+
+    if (!removedBooking) {
+      throw createHttpError(
+        "An error occurred while deleting the booking",
+        HttpStatusCode.InternalServerError
+      );
+    }
+
+    return removedBooking;
+  } catch (error: any) {
+    console.log("Error while deleting booking: ", error.message);
     throw createHttpError(
       error.message || "Internal Server Error",
       error.statusCode || HttpStatusCode.InternalServerError

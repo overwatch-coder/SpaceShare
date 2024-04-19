@@ -17,7 +17,7 @@ export const registerUser = asyncHandler(
     const data = req.body;
 
     // check if required fields are present
-    if (!data.email || data.name || !data.username || !data.password) {
+    if (!data.email || !data.name || !data.username || !data.password) {
       throw createHttpError(
         "Missing required fields",
         HttpStatusCode.BadRequest
@@ -60,6 +60,8 @@ export const registerUser = asyncHandler(
 
     const user = await createUser(data);
 
+    generateToken(res, user._id.toString());
+
     res.status(201).json({
       success: true,
       data: user,
@@ -84,7 +86,7 @@ export const loginUser = asyncHandler(
     }
 
     // find user by email
-    const user = await findUser(email, true);
+    const user = await findUser(email.toLowerCase(), true);
 
     // check if password is correct
     const isPasswordCorrect = await comparePassword(

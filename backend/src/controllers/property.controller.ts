@@ -5,7 +5,6 @@ import { createHttpError, HttpStatusCode } from "@/middleware/error.middleware";
 import { isValidObjectId, SortOrder } from "mongoose";
 import { CreatePropertyType, UpdatePropertyType } from "@/types";
 import { UploadedFile } from "express-fileupload";
-import { uploadMultipleImages, uploadSingleImage } from "@/lib/image-upload";
 import slugify from "slugify";
 import { slugifyOptions } from "@/constants";
 import {
@@ -59,7 +58,7 @@ export const getAllProperties = asyncHandler(
       res.status(200).json({
         success: true,
         data: [],
-        message: "You do not have any properties yet",
+        message: "No properties available",
       });
     }
 
@@ -114,6 +113,21 @@ export const createProperty = asyncHandler(
     // get property data from request body
     const propertyData = req.body;
 
+    // check if required fields are not empty
+    if (
+      !propertyData.name ||
+      !propertyData.location ||
+      !propertyData.ratePerNight ||
+      !propertyData.minAvailableDate ||
+      !propertyData.maxAvailableDate ||
+      !propertyData.description
+    ) {
+      throw createHttpError(
+        "Missing required fields (name, description, location, ratePerNight, minAvailableDate, maxAvailableDate)",
+        HttpStatusCode.BadRequest
+      );
+    }
+
     // check if slug already exists
     const properyNameAndSlugExists = await findPropertyByIdOrSlug(
       "",
@@ -132,11 +146,20 @@ export const createProperty = asyncHandler(
     const imagesFile = req.files?.images as UploadedFile[];
     const coverImageFile = req.files?.coverImage as UploadedFile;
 
+    // check if cover image is provided
+    if (!coverImageFile) {
+      throw createHttpError(
+        "Cover image is required",
+        HttpStatusCode.BadRequest
+      );
+    }
+
     // call create property service
     const createdProperty = await addProperty(
       propertyData,
       imagesFile,
-      coverImageFile
+      coverImageFile,
+      req.user._id
     );
 
     res.status(201).json({

@@ -33,11 +33,11 @@ mongoose.set("strictPopulate", false);
 // add pagination plugin
 bookingSchema.plugin(mongoosePaginate);
 
-export type BookingModelType = HydratedDocumentFromSchema<typeof bookingSchema>;
+type BookingModelType = HydratedDocumentFromSchema<typeof bookingSchema>;
 
 const Booking = mongoose.model<
   BookingModelType,
   mongoose.PaginateModel<BookingModelType>
->("Booking", bookingSchema, "properties");
+>("Booking", bookingSchema, "bookings");
 
 export default Booking;
