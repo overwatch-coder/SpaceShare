@@ -195,6 +195,18 @@ export const updateExistingProperty = async (
       propertyData.slug = slugify(propertyData.name, slugifyOptions);
     }
 
+    // check if amenities is provided and is an array
+    if (propertyData.amenities && !Array.isArray(propertyData.amenities)) {
+      propertyData.amenities = [propertyData.amenities];
+    }
+
+    if (propertyData.amenities) {
+      propertyData.amenities = propertyData.amenities.map((amenity) => ({
+        name: amenity.name,
+        slug: slugify(amenity.name, slugifyOptions),
+      }));
+    }
+
     const updatedProperty = await Property.findOneAndUpdate(
       { _id: id },
       { ...propertyData, images, coverImage },
