@@ -31,6 +31,7 @@ const initializeServer = async () => {
 
   // apply middleware
   app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
   app.use(cors());
   app.use(cookieParser());
   app.use(helmet());
@@ -48,6 +49,11 @@ const initializeServer = async () => {
   app.use("/api/auth", authRoutes);
   app.use("/api/properties", propertyRoutes);
   app.use("/api/bookings", bookingRoutes);
+
+  // catch-all route
+  app.use("*", (req, res) => {
+    res.redirect(process.env.DOCS_URL as string);
+  });
 
   // Error middleware
   app.use(notFound);
