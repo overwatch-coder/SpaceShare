@@ -130,6 +130,13 @@ export const addProperty = async (
       propertyData.amenities = [propertyData.amenities];
     }
 
+    if (propertyData.amenities) {
+      propertyData.amenities = propertyData.amenities.map((amenity) => ({
+        name: amenity.name,
+        slug: slugify(amenity.name, slugifyOptions),
+      }));
+    }
+
     // create new property
     const createdProperty = await Property.create({
       ...propertyData,
