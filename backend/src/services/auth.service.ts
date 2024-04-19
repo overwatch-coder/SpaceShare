@@ -7,13 +7,30 @@ import { UpdateUserType, UserType } from "@/types";
 export const updateUser = async (data: UpdateUserType, user: UserType) => {
   let newEmail = user.email;
 
-  // check if interest and hobbies are arrays
-  if (data.interests && !Array.isArray(data.interests)) {
-    data.interests = [data.interests];
+  // convert interests and hobbies to an array
+  let interestsArray: string[] = user.interests
+    ? Array.isArray(user.interests)
+      ? user.interests
+      : user.interests.split(",")
+    : [];
+
+  let hobbiesArray: string[] = user.hobbies
+    ? Array.isArray(user.hobbies)
+      ? user.hobbies
+      : user.hobbies.split(",")
+    : [];
+
+  // check if interest and hobbies are present and convert them to an array and remove duplicates
+  if (data.interests) {
+    interestsArray = Array.isArray(data.interests)
+      ? [...new Set([...data.interests, ...user.interests])]
+      : [...new Set([...data.interests.split(","), ...user.interests])];
   }
 
-  if (data.hobbies && !Array.isArray(data.hobbies)) {
-    data.hobbies = [data.hobbies];
+  if (data.hobbies) {
+    hobbiesArray = Array.isArray(data.hobbies)
+      ? [...new Set([...data.hobbies, ...user.hobbies])]
+      : [...new Set([...data.hobbies.split(","), ...user.hobbies])];
   }
 
   if (data.password) {
@@ -29,18 +46,14 @@ export const updateUser = async (data: UpdateUserType, user: UserType) => {
     {
       ...data,
       email: newEmail,
-      interests: data.interests
-        ? [...new Set([...data.interests, ...user.interests])]
-        : user.interests,
-      hobbies: data.hobbies
-        ? [...new Set([...data.hobbies, ...user.hobbies])]
-        : user.hobbies,
+      interests: interestsArray,
+      hobbies: hobbiesArray,
     },
     {
       new: true,
     }
   )
-    .select("-password -__v")
+    .select("-password -__v -properties -bookings")
     .lean()
     .exec();
 

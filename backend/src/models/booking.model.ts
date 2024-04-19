@@ -24,6 +24,7 @@ const bookingSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 

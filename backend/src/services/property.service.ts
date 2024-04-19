@@ -111,6 +111,7 @@ export const addProperty = async (
     let images: string[] = [];
     let coverImage: string = "";
     let imagesFileArray: UploadedFile[] = imagesFile || [];
+    let amenitiesArray: { name: string; slug: string }[] = [];
 
     // check images file exist and is an array
     if (imagesFileArray && !Array.isArray(imagesFileArray)) {
@@ -125,16 +126,14 @@ export const addProperty = async (
       coverImage = await uploadSingleImage(coverImageFile, "properties");
     }
 
-    // check if amenities is provided and is an array
-    if (propertyData.amenities && !Array.isArray(propertyData.amenities)) {
-      propertyData.amenities = [propertyData.amenities];
-    }
-
+    // check if amenities is provided and format it
     if (propertyData.amenities) {
-      propertyData.amenities = propertyData.amenities.map((amenity) => ({
-        name: amenity.name,
-        slug: slugify(amenity.name, slugifyOptions),
-      }));
+      propertyData.amenities.split(",").forEach((amenity) => {
+        amenitiesArray.push({
+          name: amenity,
+          slug: slugify(amenity, slugifyOptions),
+        });
+      });
     }
 
     // create new property
@@ -145,6 +144,7 @@ export const addProperty = async (
       images,
       coverImage,
       slug: slugify(propertyData.name, slugifyOptions),
+      amenities: amenitiesArray,
       owner,
     });
 
@@ -171,7 +171,8 @@ export const updateExistingProperty = async (
   id: string,
   propertyData: UpdatePropertyType,
   imagesFile: UploadedFile[],
-  coverImageFile: UploadedFile
+  coverImageFile: UploadedFile,
+  userId: string
 ) => {
   try {
     // check if property exists
@@ -180,6 +181,39 @@ export const updateExistingProperty = async (
       throw createHttpError("Property not found", HttpStatusCode.NotFound);
     }
 
+    // check if currently logged in user is the owner of the property
+    if (existingProperty.owner._id.toString() !== userId) {
+      throw createHttpError("Unauthorized", HttpStatusCode.Unauthorized);
+    }
+
+    // get amenities from request body and format it
+    let amenitiesArray: { name: string; slug: string }[] = [];
+
+    // check if amenities is provided and format it
+    if (propertyData.amenities) {
+      amenitiesArray = existingProperty.amenities
+        ? [...existingProperty.amenities]
+        : [];
+
+      propertyData.amenities.split(",").forEach((amenity) => {
+        const slug = slugify(amenity, slugifyOptions);
+
+        // Check if the amenity already exists in the array
+        if (amenitiesArray.length === 0) {
+          amenitiesArray.push({ name: amenity, slug });
+        } else {
+          const existingAmenity = amenitiesArray.find(
+            (item) => item.slug === slug
+          );
+
+          if (!existingAmenity) {
+            amenitiesArray.push({ name: amenity, slug });
+          }
+        }
+      });
+    }
+
+    // get images from request files and upload them if they exist
     let images = existingProperty.images;
     let coverImage = existingProperty.coverImage;
 
@@ -195,21 +229,17 @@ export const updateExistingProperty = async (
       propertyData.slug = slugify(propertyData.name, slugifyOptions);
     }
 
-    // check if amenities is provided and is an array
-    if (propertyData.amenities && !Array.isArray(propertyData.amenities)) {
-      propertyData.amenities = [propertyData.amenities];
-    }
-
-    if (propertyData.amenities) {
-      propertyData.amenities = propertyData.amenities.map((amenity) => ({
-        name: amenity.name,
-        slug: slugify(amenity.name, slugifyOptions),
-      }));
-    }
-
     const updatedProperty = await Property.findOneAndUpdate(
-      { _id: id },
-      { ...propertyData, images, coverImage },
+      { _id: existingProperty._id },
+      {
+        ...propertyData,
+        images,
+        coverImage,
+        amenities:
+          amenitiesArray.length > 0
+            ? amenitiesArray
+            : existingProperty.amenities,
+      },
       { new: true }
     )
       .populate({ path: "owner", select: "name username _id email" })
@@ -227,6 +257,31 @@ export const updateExistingProperty = async (
     return updatedProperty;
   } catch (error: any) {
     console.log("Error while updating property: ", error.message);
+    throw createHttpError(
+      error.message || "Internal Server Error",
+      error.statusCode || HttpStatusCode.InternalServerError
+    );
+  }
+};
+
+// delete a property
+export const removeProperty = async (id: string, userId: string) => {
+  try {
+    // check if property exists
+    const existingProperty = await findPropertyByIdOrSlug(id);
+    if (!existingProperty) {
+      throw createHttpError("Property not found", HttpStatusCode.NotFound);
+    }
+
+    // check if currently logged in user is the owner of the property
+    if (existingProperty.owner._id.toString() !== userId) {
+      throw createHttpError("Unauthorized", HttpStatusCode.Unauthorized);
+    }
+
+    // delete property
+    await Property.deleteOne({ _id: existingProperty._id });
+  } catch (error: any) {
+    console.log("Error while deleting property: ", error.message);
     throw createHttpError(
       error.message || "Internal Server Error",
       error.statusCode || HttpStatusCode.InternalServerError

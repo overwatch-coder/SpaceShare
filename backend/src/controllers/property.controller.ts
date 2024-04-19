@@ -11,6 +11,7 @@ import {
   addProperty,
   findAllProperties,
   findPropertyByIdOrSlug,
+  removeProperty,
   updateExistingProperty,
 } from "@/services/property.service";
 
@@ -201,7 +202,8 @@ export const updateProperty = asyncHandler(
       id,
       propertyData,
       imagesFile,
-      coverImageFile
+      coverImageFile,
+      req.user._id
     );
 
     res.status(200).json({
@@ -228,14 +230,8 @@ export const deleteProperty = asyncHandler(
       throw createHttpError("Invalid property id", HttpStatusCode.BadRequest);
     }
 
-    const deletedProperty = await Property.findOneAndDelete({ _id: id });
-    // check if there are no properties
-    if (!deletedProperty) {
-      throw createHttpError(
-        "An error occurred while deleting the property",
-        HttpStatusCode.InternalServerError
-      );
-    }
+    // call delete property service
+    await removeProperty(id, req.user._id);
 
     res.status(200).json({
       success: true,

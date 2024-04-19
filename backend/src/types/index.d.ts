@@ -26,8 +26,8 @@ interface User {
   username: string;
   age?: number | null;
   gender?: string | null;
-  hobbies: string[];
-  interests: string[];
+  hobbies: string | string[];
+  interests: string | string[];
   role: "host" | "client";
   smoker: boolean;
   pets: boolean;
@@ -44,26 +44,18 @@ interface User {
 
 // property types
 // Define interfaces for the schema properties
-interface Amenity {
-  name: string;
-  slug: string;
-}
-
 interface Property {
   name: string;
   description: string;
   slug: string;
   address: string;
   ratePerNight: number;
-  amenities: Amenity[];
+  amenities: string;
   minAvailableDate: string;
   maxAvailableDate: string;
   minRentalTime: number;
   maxRentalTime: number;
   numberOfGuests: number;
-  numberOfBathrooms: number;
-  numberOfBedrooms: number;
-  numberOfToilets: number;
   numberOfRooms: number;
   capacity?: number;
   status: "available" | "unavailable";

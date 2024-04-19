@@ -102,7 +102,7 @@ export const loginUser = asyncHandler(
     // generate access token and send cookie
     generateToken(res, user._id.toString());
 
-    const { password, ...rest } = user;
+    const { password, bookings, properties, ...rest } = user;
 
     res.status(200).json({
       success: true,

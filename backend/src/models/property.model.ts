@@ -19,9 +19,6 @@ const propertySchema = new mongoose.Schema(
     minRentalTime: { type: Number, default: 1 },
     maxRentalTime: { type: Number, default: 7 },
     numberOfGuests: { type: Number, default: 1 },
-    numberOfBathrooms: { type: Number, default: 1 },
-    numberOfBedrooms: { type: Number, default: 1 },
-    numberOfToilets: { type: Number, default: 1 },
     numberOfRooms: { type: Number, default: 4 },
     capacity: { type: Number },
     status: {
@@ -43,6 +40,7 @@ const propertySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 

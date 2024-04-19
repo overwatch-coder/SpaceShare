@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     properties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Property" }],
     bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 // set strict populate to false

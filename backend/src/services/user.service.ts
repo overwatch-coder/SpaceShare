@@ -9,7 +9,7 @@ export const findUser = async (
   findById: boolean = false
 ) => {
   const user = await User.findOne(findById ? { _id: data } : { email: data })
-    .select(selectPassword ? "" : "-password -__v")
+    .select(selectPassword ? "" : "-password -__v -properties -bookings")
     .lean()
     .exec();
 

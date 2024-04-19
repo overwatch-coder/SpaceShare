@@ -17,12 +17,12 @@ export const hostProfile = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   const userData = await User.findOne({ email: user.email })
-    .select("-password -__v")
+    .select("-password -__v -properties -bookings")
     .populate({
       path: "properties",
       populate: {
         path: "owner",
-        select: "-password -__v",
+        select: "-password -__v -properties -bookings",
       },
     })
     .populate({
@@ -34,12 +34,12 @@ export const hostProfile = asyncHandler(async (req: Request, res: Response) => {
           select: "-__v",
           populate: {
             path: "owner",
-            select: "-password -__v",
+            select: "-password -__v -properties -bookings",
           },
         },
         {
           path: "client",
-          select: "-password -__v",
+          select: "-password -__v -properties -bookings",
         },
       ],
     })
@@ -75,7 +75,7 @@ export const clientProfile = asyncHandler(
     }
 
     const userData = await User.findOne({ email: user.email })
-      .select("-password -__v")
+      .select("-password -__v -properties -bookings")
       .populate({
         path: "bookings",
         select: "-__v",
@@ -85,12 +85,12 @@ export const clientProfile = asyncHandler(
             select: "-__v",
             populate: {
               path: "owner",
-              select: "-password -__v",
+              select: "-password -__v -properties -bookings",
             },
           },
           {
             path: "client",
-            select: "-password -__v",
+            select: "-password -__v -properties -bookings",
           },
         ],
       })
@@ -179,7 +179,7 @@ export const uploadAvatar = asyncHandler(
       { _id: user._id },
       { profilePicture: url },
       { new: true }
-    ).select("-password -__v");
+    ).select("-password -__v -properties -bookings");
 
     res.status(200).json({
       success: true,
