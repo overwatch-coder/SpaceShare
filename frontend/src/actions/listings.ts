@@ -18,5 +18,5 @@ export const getListings = async (endpoint: string) => {
     throw new Error(data.error?.message);
   }
 
-  return data.data.docs;
+  return endpoint.includes('/') ? data.data : data.data.docs;
 };

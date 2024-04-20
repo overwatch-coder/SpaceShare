@@ -9,7 +9,7 @@ type PropertyProps = {
 
 const Listing = ({ property }: PropertyProps) => {
   return (
-    <div className="flex flex-col gap-4 shadow-md rounded-lg pb-2">
+    <div className="flex flex-col gap-4 shadow-md h-full rounded-lg overflow-hidden">
       <div className="w-full h-full group">
         <Link href={`/listings/${property._id}`}>
           <Image
@@ -19,7 +19,7 @@ const Listing = ({ property }: PropertyProps) => {
             height={150}
             quality={100}
             loading="lazy"
-            className="object-cover group-hover:scale-105 w-full h-[180px] transition"
+            className="object-cover group-hover:scale-105 w-full h-full transition"
           />
         </Link>
       </div>

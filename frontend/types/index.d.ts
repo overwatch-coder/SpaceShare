@@ -1,10 +1,15 @@
+type Amenity = {
+  name: string;
+  slug: string;
+}
+
 export type Property = {
   name: string;
   description: string;
   slug: string;
   address: string;
   ratePerNight: number;
-  amenities: string;
+  amenities: Amenity[];
   minAvailableDate: string;
   maxAvailableDate: string;
   minRentalTime: number;
