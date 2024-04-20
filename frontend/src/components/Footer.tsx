@@ -20,7 +20,7 @@ const Footer = () => {
               loading="lazy"
               className="object-cover hidden"
             />
-            <h2 className="font-bold text-primary-brown text-lg border-b-2 border-white/70 w-fit mb-3">
+            <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
               SheShare
             </h2>
 
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-5 pt-3">
-            <h2 className="font-bold text-primary-brown text-lg border-b-2 border-white/70 w-fit mb-3">
+            <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
               Follow Us
             </h2>
             <div className="flex gap-5 items-center">
@@ -79,7 +79,7 @@ const Footer = () => {
 
         {/* Column 2 */}
         <div className="flex flex-col gap-3">
-          <h2 className="font-bold text-primary-brown text-lg border-b-2 border-white/70 w-fit mb-3">
+          <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
             Support
           </h2>
           <div className="flex flex-col gap-3">
@@ -100,7 +100,7 @@ const Footer = () => {
 
         {/* Column 3 */}
         <div className="flex flex-col gap-3">
-          <h2 className="font-bold text-primary-brown text-lg border-b-2 border-white/70 w-fit mb-3">
+          <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
             Become A Host
           </h2>
           <div className="flex flex-col gap-3">
@@ -133,7 +133,7 @@ const Footer = () => {
 
         {/* Column 4 */}
         <div className="flex flex-col gap-3">
-          <h2 className="font-bold text-primary-brown text-lg border-b-2 border-white/70 w-fit mb-3">
+          <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
             Terms & Privacy
           </h2>
           <div className="flex flex-col gap-3">

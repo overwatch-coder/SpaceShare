@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SheShare",
+  title: "SheShare Vacation Rentals",
   description:
     "Connecting women who want to rent their properties with women who are looking for accommodations",
 };

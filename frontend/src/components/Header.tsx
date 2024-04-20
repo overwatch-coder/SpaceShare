@@ -4,10 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/logo2.png";
 import MobileNav from "@/components/MobileNav";
+import HeaderNavigationMenu from "@/components/HeaderDropdownMenu";
 
 const Header = () => {
   return (
-    <header className="w-screen sticky z-50 top-0 py-1 bg-primary-dark">
+    <header className="w-screen fixed z-50 top-0 py-1 bg-primary-dark shadow-md">
       <section className="flex items-center justify-between px-5 md:px-16">
         {/* Logo */}
         <Link href={"/"} className="flex items-center">
@@ -27,18 +28,21 @@ const Header = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="items-center gap-5 hidden md:flex">
-          <Link
-            href={"/login"}
-            className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
-          >
-            Login
-          </Link>
+        <nav className="items-center gap-7 hidden md:flex">
+          <HeaderNavigationMenu />
+
           <Link
             href={"/register"}
             className="border-pink-400 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
           >
             Register
+          </Link>
+
+          <Link
+            href={"/login"}
+            className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
+          >
+            Login
           </Link>
         </nav>
 

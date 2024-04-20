@@ -65,8 +65,12 @@ const MobileNav = () => {
 
               {/* Links */}
               <div className="flex flex-col gap-5 pt-5">
+                <p className="text-white font-semibold text-lg py-3 border-b-2 border-white/70">
+                  Explore SheShare
+                </p>
+
                 <Link
-                  href={"#"}
+                  href={"#welcome"}
                   className="bg-pink-500 text-white py-2 transition px-4"
                 >
                   Welcome
