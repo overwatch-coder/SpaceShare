@@ -54,19 +54,10 @@ export const getAllProperties = asyncHandler(
       sortValue
     );
 
-    // check if there are no properties
-    if (properties.totalDocs === 0) {
-      res.status(200).json({
-        success: true,
-        data: [],
-        message: "No properties available",
-      });
-    }
-
     res.status(200).json({
       success: true,
       data: properties,
-      message: "Properties retrieved successfully",
+      message: properties.totalDocs === 0 ? "No properties available" : "Properties retrieved successfully",
     });
   }
 );
