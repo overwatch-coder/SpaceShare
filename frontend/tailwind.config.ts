@@ -27,10 +27,14 @@ const config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          'soft-pink': "#FFC0CB",
+          lavender: "#E6E6FA"
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          "pale-teal": "#AEEEEE",
+          "pastel-yellow": "#FFFFE0"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -39,6 +43,8 @@ const config = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+          "light-gray": "#F5F5F5",
+          beige: "#F5F5DC"
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
