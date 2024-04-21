@@ -14,6 +14,15 @@ const router = express.Router();
 router.use(protectUser);
 
 router.get("/client", clientProfile);
+
+router.get("/me", (req, res) => {
+  res.status(200).json({
+    message: "user retrieved successfully",
+    success: true,
+    data: req.user,
+  });
+});
+
 router.get("/host", protectHost, hostProfile);
 router.patch("/update-profile", userUpdate);
 router.post("/upload-image", uploadAvatar);
