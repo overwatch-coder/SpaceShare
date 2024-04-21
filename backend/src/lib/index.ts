@@ -9,9 +9,9 @@ export const generateToken = (res: Response, userId: string) => {
   });
 
   res.cookie("access_token", token, {
-    httpOnly: false,
+    httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 60 * 24 * 10, // 14 days
+    maxAge: 1000 * 60 * 60 * 24 * 10, // 10 days
   });
 };
 
