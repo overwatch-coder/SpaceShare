@@ -64,7 +64,7 @@ export const findAllBookings = async (
 
 // find a single booking
 export const findBooking = async (
-  id: string,
+  bookingId: string,
   owner: boolean = true,
   userId: string
 ) => {
@@ -80,14 +80,14 @@ export const findBooking = async (
 
       // find the booking using id and return it
       const booking = bookings.filter(
-        (booking) => booking._id.toString() === id
+        (booking) => booking._id.toString() === bookingId
       )[0];
 
       return booking;
     }
 
     const booking = await Booking.findOne({
-      $and: [{ _id: id }, { client: userId }],
+      $and: [{ _id: bookingId }, { client: userId }],
     })
       .populate({
         path: "property",
@@ -135,7 +135,11 @@ export const addBooking = async (
       );
     }
 
-    return createdBooking;
+    return findBooking(
+      createdBooking._id.toString(),
+      user.role === "host",
+      user._id
+    );
   } catch (error: any) {
     console.log("Error while creating booking: ", error.message);
     throw createHttpError(
@@ -188,7 +192,11 @@ export const updateExistingBooking = async (
       );
     }
 
-    return updatedBooking;
+    return findBooking(
+      updatedBooking._id.toString(),
+      user.role === "host",
+      user._id
+    );
   } catch (error: any) {
     console.log("Error while updating booking: ", error.message);
     throw createHttpError(
