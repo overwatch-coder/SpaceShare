@@ -12,7 +12,8 @@ interface PayloadData {
 // check if user is authorized
 export const protectUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { access_token } = req.cookies;
+    const access_token = req.headers.authorization?.split(" ")[1];
+
     if (!access_token) {
       throw createHttpError(
         "Not authorized, no token found.",
