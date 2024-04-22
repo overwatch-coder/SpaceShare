@@ -1,8 +1,10 @@
-import { getListings } from "@/actions/listings";
+import { getListings } from "@/app/actions/listings.actions";
+import BookingSheet from "@/app/listings/[id]/BookingSheet";
+import ListingDetailsSummary from "@/app/listings/[id]/ListingDetailsSummary";
 import BreadCrumpLinks from "@/components/BreadCrumpLinks";
 import { Property } from "@/types/index";
 import { Metadata } from "next";
-import React from "react";
+import { IoLocationSharp } from "react-icons/io5";
 
 type ListingDetailsPageProps = {
   params: {
@@ -33,71 +35,37 @@ const ListingDetailsPage = async ({
   const property: Property = await getListings(`properties/${id}`);
 
   return (
-    <div className="mt-32 px-8 md:px-16 flex flex-col gap-10 py-10">
-      <BreadCrumpLinks />
+    <div className="flex flex-col gap-5 pb-10">
+      {/* Hero Section */}
+      <section
+        id="welcome"
+        className="bg-hero-2 bg-center bg-cover bg-no-repeat h-full md:h-[80vh] lg:h-[100vh] py-16"
+      >
+        <div className="mt-24 md:mt-32 flex flex-col gap-6 md:gap-8 justify-center items-center max-w-2xl mx-auto">
+          <BreadCrumpLinks lastLink={property.name} />
 
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-semibold mb-4">{property.name}</h1>
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="bg-white shadow-md rounded-lg p-6 flex-1">
-            <h2 className="text-xl font-semibold mb-4">Booking Sheet</h2>
-            <div className="mb-4">
-              <p>
-                <strong>Check-in:</strong> 09/29/2020
-              </p>
-              <p>
-                <strong>Check-out:</strong> 09/29/2020
-              </p>
-              <p>
-                <strong>Number of Persons:</strong> 2
-              </p>
-              <p>
-                <strong>Number of Rooms:</strong> 1
-              </p>
-            </div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-              Book Now
-            </button>
-          </div>
-
-          <div className="bg-white shadow-md rounded-lg p-6 flex-1">
-            <h2 className="text-xl font-semibold mb-4">Property Amenities</h2>
-            <div className="mb-4">
-              <ul className="list-disc list-inside">
-                {property.amenities.length === 0 ? (
-                  <li>No amenities provided</li>
-                ) : (
-                  property.amenities.map((amenity) => (
-                    <li key={amenity.slug} className="capitalize">
-                      {amenity.name}
-                    </li>
-                  ))
-                )}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6 mt-8">
-          <h2 className="text-xl font-semibold mb-4">Price Details</h2>
-          <div className="border-t border-gray-200 pt-5">
-            <p className="text-lg font-medium text-black">
-              <span className="text-2xl">${property.ratePerNight}</span> / night
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg p-6 mt-8">
-          <h2 className="text-xl font-semibold mb-4">Description</h2>
-          <p>{property.description}</p>
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg p-6 mt-8">
-          <h2 className="text-xl font-semibold mb-4">
-            Average Ratings:{" "}
-            {property.rating > 0 ? property.rating : "No ratings yet"}
+          <h2 className="text-center font-semibold text-3xl md:text-5xl text-white">
+            {property.name}
           </h2>
+
+          <p className="text-center text-white flex items-center justify-center gap-3">
+            <IoLocationSharp size={30} className="text-white" />
+            <span className="text-lg font-medium">{property.location}</span>
+          </p>
         </div>
-      </div>
+      </section>
+
+      <section className="flex flex-col gap-5 px-8 md:px-16 pt-6 pb-10">
+        <div className="flex flex-col-reverse gap-5 md:flex-row md:items-start md:gap-10">
+          <div className="flex flex-col gap-5 md:w-[300px] w-full">
+            <BookingSheet property={property} />
+          </div>
+
+          <div className="flex flex-col gap-5 md:flex-1 w-full">
+            <ListingDetailsSummary property={property} />
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

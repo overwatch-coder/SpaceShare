@@ -1,21 +1,17 @@
 "use client";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MdMenu } from "react-icons/md";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import logo from "@/assets/logo2.png";
 import UserAvatar from "@/components/UserAvatar";
-import { useAuth } from "@/hooks/useAuth";
 import Logout from "@/components/Logout";
 
-const MobileNav = () => {
-  const { user } = useAuth();
-
+const UserProfile = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <MdMenu size={30} color="white" />
+        <UserAvatar />
       </SheetTrigger>
 
       <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll">
@@ -43,45 +39,20 @@ const MobileNav = () => {
 
           {/* Nav */}
           <nav className="flex flex-col gap-5 mt-5">
-            {!user && (
-              <div className="hidden flex-col gap-3">
-                <Link
-                  href={"/login"}
-                  className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
-                >
-                  Login
-                </Link>
-
-                <Link
-                  href={"/register"}
-                  className="border-pink-400 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-
             <div className="flex flex-col gap-5">
-              {user && <UserAvatar />}
+              <UserAvatar />
 
               {/* Links */}
               <div className="flex flex-col gap-5 pt-5">
                 <p className="text-white font-semibold text-lg py-3 border-b-2 border-white/70">
-                  Explore SheShare
+                  Manage Profile
                 </p>
 
                 <Link
-                  href={"/listings"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
-                >
-                  All Listings
-                </Link>
-
-                <Link
-                  href={"#welcome"}
+                  href={"/dashboard"}
                   className="bg-pink-500 text-white py-2 transition px-4"
                 >
-                  Welcome
+                  Dashboard
                 </Link>
 
                 <Link
@@ -97,35 +68,14 @@ const MobileNav = () => {
                 >
                   Share A Room
                 </Link>
-
-                <Link
-                  href={"#"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
-                >
-                  Safety
-                </Link>
-
-                <Link
-                  href={"#"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
-                >
-                  Adventure
-                </Link>
-
-                <Link
-                  href={"#"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
-                >
-                  Community
-                </Link>
               </div>
             </div>
           </nav>
         </section>
-        {user && <Logout />}
+        <Logout />
       </SheetContent>
     </Sheet>
   );
 };
 
-export default MobileNav;
+export default UserProfile;

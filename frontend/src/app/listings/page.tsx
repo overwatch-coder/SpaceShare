@@ -1,4 +1,4 @@
-import { getListings } from "@/actions/listings";
+import { getListings } from "@/app/actions/listings.actions";
 import Listing from "@/components/Listing";
 import { Property } from "@/types/index";
 import { Metadata } from "next";

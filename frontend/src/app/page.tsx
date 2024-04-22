@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { getListings } from "@/actions/listings";
+import { getListings } from "@/app/actions/listings.actions";
 import { Property } from "@/types/index";
 import Listing from "@/components/Listing";
 import ProgressCounter from "@/components/ProgressCounter";
@@ -8,7 +7,6 @@ import Amenities from "@/components/Amenities";
 
 const HomePage = async () => {
   const properties: Property[] = await getListings("properties");
-
   return (
     <div className="flex flex-col gap-5">
       {/* Hero Section */}
@@ -34,12 +32,18 @@ const HomePage = async () => {
 
           {/* Call To Action Buttons */}
           <div className="text-center flex flex-col gap-4 md:flex-row md:items-center">
-            <Button size="lg" className="bg-pink-500 hover:bg-pink-400">
+            <Link
+              href={"/register?role=host"}
+              className="bg-pink-500 hover:bg-pink-400 rounded-md px-5 py-2 text-center text-white"
+            >
               Share Your Room
-            </Button>
-            <Button size="lg" variant="secondary">
+            </Link>
+            <Link
+              href={"/register?role=client"}
+              className="bg-white/90 hover:bg-white/80 rounded-md px-5 py-2 text-primary-dark"
+            >
               Rent A Room
-            </Button>
+            </Link>
           </div>
         </div>
       </section>

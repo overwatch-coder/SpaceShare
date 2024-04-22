@@ -9,7 +9,7 @@ type PropertyProps = {
 
 const Listing = ({ property }: PropertyProps) => {
   return (
-    <div className="flex flex-col gap-4 shadow-md h-full rounded-lg overflow-hidden">
+    <div className="flex flex-col gap-4 shadow-md h-full rounded-lg overflow-hidden relative">
       <div className="w-full h-full group">
         <Link href={`/listings/${property._id}`}>
           <Image
@@ -23,6 +23,12 @@ const Listing = ({ property }: PropertyProps) => {
           />
         </Link>
       </div>
+
+      {property.isFeatured && (
+        <p className="absolute top-3 right-10 rounded-full px-3 py-2 bg-pink-600 text-white z-20 text-xs">
+          Featured
+        </p>
+      )}
 
       <div className="flex flex-col justify-between px-3 py-5">
         <div className="mb-5">

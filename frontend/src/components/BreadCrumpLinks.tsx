@@ -14,7 +14,7 @@ type BreadCrump = {
   path: string;
 };
 
-const BreadCrumpLinks = () => {
+const BreadCrumpLinks = ({ lastLink }: { lastLink?: string }) => {
   // generate breadcrumps from pathname
   const pathname = usePathname();
 
@@ -41,16 +41,31 @@ const BreadCrumpLinks = () => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {breadcrumps.map((breadcrump, index) => (
-          <>
-            <BreadcrumbItem key={index}>
-              <BreadcrumbLink className="capitalize" href={breadcrump.path}>
-                {breadcrump.name}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className={`last:hidden`} />
-          </>
-        ))}
+        {breadcrumps
+          .slice(0, breadcrumps.length - 1)
+          .map((breadcrump, index) => (
+            <>
+              <BreadcrumbItem key={index}>
+                <BreadcrumbLink
+                  className="capitalize text-white hover:text-pink-500"
+                  href={breadcrump.path}
+                >
+                  {breadcrump.name}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator
+                className={`text-white ${lastLink ? "" : "last:hidden"}`}
+              />
+            </>
+          ))}
+
+        {lastLink !== undefined && (
+          <BreadcrumbItem key={lastLink}>
+            <BreadcrumbLink className="capitalize text-white hover:text-pink-500">
+              {lastLink}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );

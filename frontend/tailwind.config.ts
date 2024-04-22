@@ -20,6 +20,7 @@ const config = {
     extend: {
       backgroundImage: {
         hero: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero.png')",
+        'hero-2': "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero2.png')",
       },
       colors: {
         border: "hsl(var(--border))",

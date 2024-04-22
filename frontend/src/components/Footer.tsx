@@ -117,7 +117,7 @@ const Footer = () => {
               Hosting Responsibility
             </Link>
             <Link
-              href="#"
+              href="/add-listing"
               className="text-white/70 hover:text-white font-medium w-fit"
             >
               Share A Room
