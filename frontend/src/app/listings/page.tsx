@@ -4,7 +4,7 @@ import { Property } from "@/types/index";
 import { Metadata } from "next";
 import React from "react";
 
-export const meta: Metadata = {
+export const metadata: Metadata = {
   title: "Available Listings - SheShare Vacation Rentals",
   description: "Show all available listings",
 };
