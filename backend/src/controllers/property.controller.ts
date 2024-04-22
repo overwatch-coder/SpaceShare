@@ -57,7 +57,10 @@ export const getAllProperties = asyncHandler(
     res.status(200).json({
       success: true,
       data: properties,
-      message: properties.totalDocs === 0 ? "No properties available" : "Properties retrieved successfully",
+      message:
+        properties.totalDocs === 0
+          ? "No properties available"
+          : "Properties retrieved successfully",
     });
   }
 );
