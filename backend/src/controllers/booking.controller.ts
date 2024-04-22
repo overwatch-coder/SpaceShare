@@ -25,7 +25,7 @@ export const getAllBookings = asyncHandler(
     const bookings = await findAllBookings(user._id!, user.role === "host");
 
     // check if there are no bookings
-    if (bookings.length === 0) {
+    if ((Array.isArray(bookings) && bookings.length === 0) || !bookings) {
       res.status(200).json({
         success: true,
         data: [],
