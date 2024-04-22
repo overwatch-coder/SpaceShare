@@ -5,8 +5,11 @@ export const convertToFormData = (data: any) => {
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
       // If the value is a file (e.g., images), append it directly
-      if (data[key] instanceof File) {
-        console.log({ key, value: data[key] });
+      if (key === "images") {
+        Array.from(data[key]).forEach((value: any) => {
+          formData.append("images", value);
+        });
+      } else if (data[key] instanceof File) {
         formData.append(key, data[key]);
       } else {
         formData.append(key, data[key]);

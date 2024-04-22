@@ -35,9 +35,14 @@ const ListingForm = () => {
       const files = e.target.files;
       const file = e.target.files[0];
 
+      let fileArray = [];
+      for (let i = 0; i < files.length; i++) {
+        fileArray.push(files.item(i));
+      }
+
       setImageFiles((prev) => ({
         ...prev,
-        [name]: name === "images" ? files : file,
+        [name]: name === "images" ? fileArray : file,
       }));
     }
   };
@@ -45,7 +50,13 @@ const ListingForm = () => {
   const submitListingHandler: SubmitHandler<ListingType> = async (data) => {
     const formdata = new FormData();
     formdata.append("coverImage", imageFiles.coverImage);
-    formdata.append("images", imageFiles.images);
+    if (imageFiles.images.length > 0) {
+      imageFiles.images.map((file: any) => {
+        formdata.append("images", file);
+      });
+    } else {
+      formdata.append("images", imageFiles.images);
+    }
     const result = await submitAddListingForm(
       JSON.parse(JSON.stringify(data)),
       user?._id!,

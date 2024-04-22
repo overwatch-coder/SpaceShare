@@ -59,7 +59,7 @@ export const submitAddListingForm = async (
   imageData: FormData
 ) => {
   const coverImage = imageData.get("coverImage");
-  const images = imageData.get("images");
+  const images = imageData.getAll("images");
 
   const { token } = await getServerUser();
   const listingValidationResults = listingSchema.safeParse(data);
