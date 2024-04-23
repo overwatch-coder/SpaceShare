@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger";
 import { Request, Response, NextFunction } from "express";
 import { CastError } from "mongoose";
 
@@ -69,9 +70,10 @@ export const errorHandler = (
     err.message = "Resource not found - Invalid Object Id";
   }
 
-  // if (err.type)
   // Log the error
-  console.error({ err, in: "errorHandler" });
+  logger.error(
+    `${statusCode} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+  );
 
   // Send the appropriate HTTP response
   res.status(statusCode).json({
@@ -84,6 +86,7 @@ export const errorHandler = (
     stack: process.env.NODE_ENV === "production" ? null : err.stack,
     success: false,
     data: null,
+    message: err.message || "Internal Server Error",
   });
 };
 

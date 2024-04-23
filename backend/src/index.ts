@@ -21,6 +21,7 @@ import userRoutes from "@/routes/user.route";
 import authRoutes from "@/routes/auth.route";
 import propertyRoutes from "@/routes/property.route";
 import bookingRoutes from "@/routes/booking.route";
+import { logger } from "@/lib/logger";
 
 const initializeServer = async () => {
   // initialise app
@@ -38,9 +39,17 @@ const initializeServer = async () => {
       credentials: true,
     })
   );
-  app.use(cookieParser());
   app.use(helmet());
-  app.use(morgan("dev"));
+  app.use(cookieParser());
+  if (process.env.NODE_ENV !== "production") {
+    app.use(
+      morgan("combined", {
+        stream: {
+          write: (message: string) => logger.log(logger.level, message),
+        },
+      })
+    );
+  }
   app.use(
     fileUpload({
       useTempFiles: true,
