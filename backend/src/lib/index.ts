@@ -13,6 +13,8 @@ export const generateToken = (res: Response, userId: string) => {
     secure: process.env.NODE_ENV === "production",
     maxAge: 1000 * 60 * 60 * 24 * 10, // 10 days
   });
+
+  return token;
 };
 
 // compare password with db password

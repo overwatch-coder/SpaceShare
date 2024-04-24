@@ -60,12 +60,13 @@ export const registerUser = asyncHandler(
 
     const user = await createUser(data);
 
-    generateToken(res, user._id.toString());
+    const token = generateToken(res, user._id.toString());
 
     res.status(201).json({
       success: true,
       data: user,
       message: "Account created successfully.",
+      token,
     });
   }
 );
@@ -100,7 +101,7 @@ export const loginUser = asyncHandler(
     }
 
     // generate access token and send cookie
-    generateToken(res, user._id.toString());
+    const token = generateToken(res, user._id.toString());
 
     const { password, bookings, properties, ...rest } = user;
 
@@ -108,6 +109,7 @@ export const loginUser = asyncHandler(
       success: true,
       data: rest,
       message: "You've successfully logged in.",
+      token,
     });
   }
 );
