@@ -12,10 +12,11 @@ import LoginSubmitButton from "@/app/(auth)/login/LoginSubmitButton";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect, useSearchParams, useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const { user } = useAuth();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.has("redirect")
@@ -48,6 +49,7 @@ const LoginPage = () => {
 
     toast.success(result.message);
     reset();
+    router.replace(redirectUrl);
   };
 
   if (user) {

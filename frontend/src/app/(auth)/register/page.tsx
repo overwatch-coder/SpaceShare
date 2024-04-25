@@ -11,10 +11,11 @@ import { registerFormSubmit } from "@/app/actions/user.actions";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect, useSearchParams, useRouter } from "next/navigation";
 import RegisterSubmitButton from "@/app/(auth)/register/RegisterSubmitButton";
 
 const RegisterPage = () => {
+  const router = useRouter();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
@@ -48,6 +49,7 @@ const RegisterPage = () => {
 
     toast.success(result.message);
     reset();
+    router.replace("/dashboard");
   };
 
   if (user) {
