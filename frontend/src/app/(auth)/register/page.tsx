@@ -53,7 +53,7 @@ const RegisterPage = () => {
   };
 
   if (user) {
-    return redirect("/dashboard");
+    return router.replace("/dashboard");
   }
 
   return (

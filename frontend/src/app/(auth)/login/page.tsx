@@ -53,7 +53,7 @@ const LoginPage = () => {
   };
 
   if (user) {
-    return redirect(redirectUrl);
+    return router.replace(redirectUrl);
   }
 
   return (
