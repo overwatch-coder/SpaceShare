@@ -8,9 +8,11 @@ import logo from "@/assets/logo2.png";
 import UserAvatar from "@/components/UserAvatar";
 import { useAuth } from "@/hooks/useAuth";
 import Logout from "@/components/Logout";
+import { usePathname } from "next/navigation";
 
 const MobileNav = () => {
   const { user } = useAuth();
+  const pathname = usePathname();
 
   return (
     <Sheet>
@@ -72,28 +74,36 @@ const MobileNav = () => {
 
                 <Link
                   href={"/listings"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
+                  className={`text-white py-2 transition px-4 hover:scale-105 ${
+                    pathname === "/listings"
+                      ? "bg-pink-500"
+                      : "hover:bg-pink-500"
+                  }`}
                 >
                   All Listings
                 </Link>
 
                 <Link
                   href={"#welcome"}
-                  className="bg-pink-500 text-white py-2 transition px-4"
+                  className="text-white hover:bg-pink-500 py-2 transition px-4"
                 >
                   Welcome
                 </Link>
 
                 <Link
                   href={"/listings"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
+                  className="text-white py-2 transition px-4 hover:scale-105 hover:bg-pink-500"
                 >
                   Rent A Room
                 </Link>
 
                 <Link
                   href={"/add-listing"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
+                  className={`text-white py-2 transition px-4 hover:scale-105 ${
+                    pathname === "/add-listing"
+                      ? "bg-pink-500"
+                      : "hover:bg-pink-500"
+                  }`}
                 >
                   Share A Room
                 </Link>

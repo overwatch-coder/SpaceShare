@@ -6,8 +6,10 @@ import Image from "next/image";
 import logo from "@/assets/logo2.png";
 import UserAvatar from "@/components/UserAvatar";
 import Logout from "@/components/Logout";
+import { usePathname } from "next/navigation";
 
 const UserProfile = () => {
+  const pathname = usePathname();
   return (
     <Sheet>
       <SheetTrigger>
@@ -50,21 +52,33 @@ const UserProfile = () => {
 
                 <Link
                   href={"/dashboard"}
-                  className="bg-pink-500 text-white py-2 transition px-4"
+                  className={`text-white py-2 transition px-4 hover:scale-105 ${
+                    pathname === "/dashboard"
+                      ? "bg-pink-500"
+                      : "hover:bg-pink-500"
+                  }`}
                 >
                   Dashboard
                 </Link>
 
                 <Link
                   href={"/listings"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
+                  className={`text-white py-2 transition px-4 hover:scale-105 ${
+                    pathname === "/listings"
+                      ? "bg-pink-500"
+                      : "hover:bg-pink-500"
+                  }`}
                 >
                   Rent A Room
                 </Link>
 
                 <Link
                   href={"/add-listing"}
-                  className="text-white hover:bg-pink-500 py-2 transition px-4"
+                  className={`text-white py-2 transition px-4 hover:scale-105 ${
+                    pathname === "/add-listing"
+                      ? "bg-pink-500"
+                      : "hover:bg-pink-500"
+                  }`}
                 >
                   Share A Room
                 </Link>
