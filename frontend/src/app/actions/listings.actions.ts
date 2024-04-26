@@ -1,11 +1,10 @@
 "use server";
 
-import { getServerUser } from "@/app/actions/user.actions";
+import { currentUser } from "@/app/actions/user.actions";
 import { convertToFormData } from "@/lib/converstions";
 import { listingSchema, ListingType } from "@/schema/listing.schema";
 import { ResponseType } from "@/types/index";
 import { revalidateTag } from "next/cache";
-import { toast } from "react-toastify";
 
 // get all properties/listings available
 export const getListings = async (endpoint: string) => {
@@ -20,7 +19,7 @@ export const getListings = async (endpoint: string) => {
   const data: ResponseType = await res.json();
 
   if (!data.success) {
-    toast.error(data.error?.message);
+    return [];
   }
 
   return endpoint.includes("/") ? data.data : data.data.docs;
@@ -28,7 +27,7 @@ export const getListings = async (endpoint: string) => {
 
 // delete listing
 export const deleteListing = async (formdata: FormData) => {
-  const { token } = await getServerUser();
+  const { token } = await currentUser();
   const propertyId = formdata.get("propertyId");
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/properties/${propertyId}`,
@@ -43,13 +42,7 @@ export const deleteListing = async (formdata: FormData) => {
 
   const data: ResponseType = await res.json();
 
-  if (!data.success) {
-    toast.error(data.error?.message);
-  }
-
   revalidateTag("properties");
-
-  toast.success(data.message);
 };
 
 // add new listing
@@ -61,13 +54,13 @@ export const submitAddListingForm = async (
   const coverImage = imageData.get("coverImage");
   const images = imageData.getAll("images");
 
-  const { token } = await getServerUser();
+  const { token } = await currentUser();
   const listingValidationResults = listingSchema.safeParse(data);
 
   if (!listingValidationResults.success) {
     return {
       error: {
-        message: listingValidationResults.error.format(),
+        message: listingValidationResults.error.errors.map(err => err.message)
       },
       success: false,
       data: null,
@@ -116,7 +109,7 @@ export const submitAddListingForm = async (
     };
   } catch (error: any) {
     return {
-      error: error?.message,
+      error: {message: error?.message},
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,

@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerUser } from "@/app/actions/user.actions";
+import { currentUser } from "@/app/actions/user.actions";
 import { BookingFormType, createBookingSchema } from "@/schema/bookings.schema";
 import { CreateBooking, ResponseType } from "@/types/index";
 import { revalidateTag } from "next/cache";
@@ -11,7 +11,7 @@ export const submitBookingForm = async (
   property: string,
   client: string
 ) => {
-  const { token } = await getServerUser();
+  const { token } = await currentUser();
 
   const bookingData: CreateBooking = {
     ...data,
@@ -25,7 +25,7 @@ export const submitBookingForm = async (
   if (!bookingDataValidation.success) {
     return {
       error: {
-        message: bookingDataValidation.error.format(),
+        message: bookingDataValidation.error.errors.map(err => err.message),
       },
       success: false,
       data: null,
@@ -66,7 +66,7 @@ export const submitBookingForm = async (
     };
   } catch (error: any) {
     return {
-      error: error?.message,
+      error: { message: error?.message },
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,
@@ -76,7 +76,7 @@ export const submitBookingForm = async (
 
 // get bookings of the logged in user
 export const getBookings = async (endpoint: string) => {
-  const { token } = await getServerUser();
+  const { token } = await currentUser();
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, {
     method: "GET",
     headers: {
@@ -103,8 +103,7 @@ export const updateBookingStatus = async ({
   status: string;
   bookingId: string;
 }) => {
-  const { token } = await getServerUser();
-  console.log({ status, bookingId });
+  const { token } = await currentUser();
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}`,
@@ -143,7 +142,7 @@ export const updateBookingStatus = async ({
     };
   } catch (error: any) {
     return {
-      error: error?.message,
+      error: { message: error?.message },
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,

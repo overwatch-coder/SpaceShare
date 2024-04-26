@@ -1,38 +1,18 @@
 "use server";
 
+import { setCookie } from "@/app/actions";
 import {
   Login,
   loginSchema,
   Register,
   registerSchema,
+  updateUserSchema,
+  UpdateUserType,
 } from "@/schema/user.schema";
 import { ResponseType, User } from "@/types/index";
+import age from "@whitetrefoil/s-age-ts";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-
-// set cookie
-export const setCookie = (res: Response, logout: boolean = false) => {
-  const cookieStore = cookies();
-
-  if (logout) {
-    cookieStore.set("access_token", "");
-    return;
-  } else {
-    //   check if cookies is present in headers
-    const cookiesPresent = res.headers.getSetCookie().length > 0;
-    const cookiesArray = cookiesPresent
-      ? res.headers.getSetCookie()[0].split(";")
-      : [];
-
-    // get the token key and value
-    const cookieKey =
-      cookiesArray.length > 0 ? cookiesArray[0].split("=")[0] : "token";
-    const cookieValue =
-      cookiesArray.length > 0 ? cookiesArray[0].split("=")[1] : "";
-
-    cookieStore.set(cookieKey, cookieValue);
-    return;
-  }
-};
 
 // login
 export const loginFormSubmit = async (data: Login) => {
@@ -40,7 +20,9 @@ export const loginFormSubmit = async (data: Login) => {
 
   if (!validatedData.success) {
     return {
-      error: validatedData.error.format(),
+      error: {
+        message: validatedData.error.errors.map((err) => err.message),
+      },
       success: false,
       data: null,
       stack: null,
@@ -64,7 +46,9 @@ export const loginFormSubmit = async (data: Login) => {
     return result;
   } catch (error: any) {
     return {
-      error: error.message,
+      error: {
+        message: error.message,
+      },
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,
@@ -79,7 +63,9 @@ export const registerFormSubmit = async (data: Register) => {
 
   if (!validatedData.success) {
     return {
-      error: validatedData.error.format(),
+      error: {
+        message: validatedData.error.errors.map((err) => err.message),
+      },
       success: false,
       data: null,
       stack: null,
@@ -112,7 +98,7 @@ export const registerFormSubmit = async (data: Register) => {
     return result;
   } catch (error: any) {
     return {
-      error: error.message,
+      error: { message: error.message },
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,
@@ -121,8 +107,79 @@ export const registerFormSubmit = async (data: Register) => {
   }
 };
 
+// update profile
+export const updateAccount = async (data: UpdateUserType) => {
+  const { user, token } = await currentUser();
+  const dataToValidate = {
+    ...data,
+    email: data.email === user.email ? undefined : data.email,
+    age: data.age ? age(data.age).toString() : undefined,
+  };
+  const validatedData = updateUserSchema.safeParse(dataToValidate);
+
+  if (!validatedData.success) {
+    return {
+      error: {
+        message: validatedData.error.errors.map((err) => err.message),
+      },
+      success: false,
+      data: null,
+      stack: null,
+      message: "validation error",
+    };
+  }
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/update-profile`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(validatedData.data),
+      }
+    );
+
+    const result: ResponseType = await res.json();
+
+    revalidatePath("/dashboard");
+    return result;
+  } catch (error: any) {
+    return {
+      error: { message: error.message },
+      success: false,
+      data: null,
+      stack: process.env.NODE_ENV === "development" ? error.stack : null,
+      message: "Something went wrong. Please try again later.",
+    };
+  }
+};
+
+// change profile picture
+export const updateAvatar = async (formData: FormData) => {
+  const { token } = await currentUser();
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/upload-image`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    }
+  );
+
+  const data: ResponseType = await res.json();
+
+  revalidatePath("/dashboard");
+  return data;
+};
+
 // currently logged in user details
-export const getServerUser = async () => {
+export const currentUser = async () => {
   const cookieStore = cookies();
   const token = cookieStore.has("access_token")
     ? cookieStore.get("access_token")?.value
@@ -141,6 +198,22 @@ export const getServerUser = async () => {
   const user: User = data.data;
 
   return { user, token };
+};
+
+// delete account
+export const deleteAccount = async () => {
+  const { token } = await currentUser();
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/delete`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data: ResponseType = await res.json();
+
+  return data;
 };
 
 //   logout

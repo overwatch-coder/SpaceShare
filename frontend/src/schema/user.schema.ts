@@ -62,5 +62,28 @@ export const registerSchema = z
     }
   });
 
+const userSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  username: z.string().optional(),
+  age: z.string().optional(),
+  gender: z.string().optional(),
+  hobbies: z.string().optional(),
+  interests: z.string().optional(),
+  smoker: z.coerce
+    .string()
+    .transform((value) => (value ? (value === "true" ? true : false) : false)),
+  pets: z.coerce
+    .string()
+    .transform((value) => (value ? (value === "true" ? true : false) : false)),
+  drinker: z.coerce
+    .string()
+    .transform((value) => (value ? (value === "true" ? true : false) : false)),
+  phone: z.string().optional(),
+});
+
+export const updateUserSchema = userSchema.partial();
+
 export type Login = z.infer<typeof loginSchema>;
 export type Register = z.infer<typeof registerSchema>;
+export type UpdateUserType = z.infer<typeof updateUserSchema>;

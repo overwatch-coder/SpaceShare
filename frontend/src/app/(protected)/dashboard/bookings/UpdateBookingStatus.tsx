@@ -4,7 +4,6 @@ import { updateBookingStatus } from "@/app/actions/bookings.actions";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -50,7 +49,9 @@ const UpdateBookingStatus = ({ booking }: UpdateBookingStatusProps) => {
 
       return Swal.fire({
         title: "Oops!",
-        text: result.error?.message,
+        text: Array.isArray(result.error?.message)
+          ? result.error?.message.join(", ")
+          : result.error?.message,
         icon: "error",
         timer: 4000,
         timerProgressBar: true,

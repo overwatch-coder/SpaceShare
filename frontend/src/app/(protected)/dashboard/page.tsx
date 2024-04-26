@@ -1,117 +1,74 @@
 import { Metadata } from "next";
-import { getServerUser } from "@/app/actions/user.actions";
-import { redirect } from "next/navigation";
-import { Property } from "@/types/index";
-import { deleteListing, getListings } from "@/app/actions/listings.actions";
-import UserBookings from "@/app/(protected)/dashboard/UserBookings";
-import Link from "next/link";
+import { currentUser } from "@/app/actions/user.actions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PasswordChange from "@/app/(protected)/dashboard/PasswordChange";
+import UpdateAccountDetails from "@/app/(protected)/dashboard/UpdateAccount";
+import AccountSettings from "@/app/(protected)/dashboard/AccountSettings";
+import ChangeProfilePicture from "@/app/(protected)/dashboard/ChangeProfilePicture";
+import UserInformation from "@/app/(protected)/dashboard/UserInformation";
+import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
-  title: "Dashboard - SheShare Vacation Rentals",
-  description: "Manage your account, rentals and bookings with ease",
+  title: "Manage Your Account - Dashboard",
+  description: "Manage your account with ease",
 };
 
-const DashboardPage = async () => {
-  const { user } = await getServerUser();
-  if (!user) {
-    return redirect("/login");
-  }
-
-  const allListings: Property[] = await getListings("properties");
-  const listings =
-    allListings.length > 0
-      ? allListings.filter((listing) => listing.owner._id === user._id)
-      : [];
-
+const AccountPage = async () => {
+  const { user } = await currentUser();
   return (
-    <section className="container mx-auto py-8 mt-32 px-8 md:px-16">
-      <h1 className="text-3xl font-semibold mb-6 text-pink-500">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Account Management Section */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Account Information</h2>
-          <div className="mb-4">
-            <p className="text-gray-700">
-              <span className="font-semibold">Name:</span> {user.name}
-            </p>
-            <p className="text-gray-700">
-              <span className="font-semibold">Username:</span> {user.username}
-            </p>
-            <p className="text-gray-700">
-              <span className="font-semibold">Email:</span> {user.email}
-            </p>
-          </div>
-          <button className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600">
-            Edit Profile
-          </button>
-        </div>
+    <section className="container mt-20 py-5">
+      <h1 className="text-3xl font-semibold text-center py-4 text-pink-500">
+        Manage Your Account
+      </h1>
 
-        {/* Bookings Section */}
-        <UserBookings />
+      <Tabs defaultValue="info" className="w-full max-w-3xl mx-auto">
+        <TabsList>
+          <TabsTrigger value="info">User Info</TabsTrigger>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Change Password</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
 
-        {/* Listings Section */}
-        {user.role === "host" && (
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">My Listings</h2>
-            <p className="text-gray-700">
-              You have {listings.length} listings available.
-            </p>
+        <TabsContent value="info">
+          <div className="w-full mt-8">
+            {/* Account Management Section */}
+            <div className="flex flex-col gap-5 bg-white shadow-md border border-primary-dark rounded-lg p-6">
+              <h2 className="text-2xl md:text-3xl text-primary-dark font-semibold mb-4 text-center">
+                Account Information
+              </h2>
 
-            {/* Display all listings here */}
-            {listings.length > 0 &&
-              listings.map((listing) => (
-                <div
-                  key={listing._id}
-                  className="mt-4 border-b border-gray-200 pb-4 relative shadow-md rounded-md p-3 flex flex-col gap-2"
-                >
-                  <h3 className="text-gray-900 flex flex-col gap-1">
-                    <span className="font-semibold text-lg">Property</span>
-                    <span className="text-sm font-medium text-gray-700">
-                      {listing.name}
-                    </span>
-                  </h3>
-                  <p className="text-gray-700 flex flex-col gap-1">
-                    <span className="font-semibold">Location</span>{" "}
-                    <span className="text-sm font-medium">
-                      {listing.location}
-                    </span>
-                  </p>
-                  <Link
-                    href={`listings/${listing._id}`}
-                    className="absolute top-0 right-2 bg-green-600 text-white text-xs text-center px-3 py-1 rounded-full"
-                  >
-                    Edit
-                  </Link>
+              <div className="flex flex-col items-center gap-5 md:flex md:flex-row md:items-start md:justify-between">
+                {/* Change Profile Picture */}
+                <ChangeProfilePicture />
 
-                  <form action={deleteListing}>
-                    <input
-                      type="hidden"
-                      name="propertyId"
-                      value={listing._id}
-                    />
-                    <button
-                      type="submit"
-                      className="absolute top-10 right-2 bg-red-600 text-white text-xs text-center px-3 py-1 rounded-full"
-                    >
-                      Delete
-                    </button>
-                  </form>
-                </div>
-              ))}
+                {/* divider */}
+                <Separator
+                  orientation="vertical"
+                  className="h-screen bg-primary-dark w-1 mx-10 hidden md:block"
+                />
+                <Separator
+                  orientation="horizontal"
+                  className="w-screen h-1 bg-primary-dark my-10 md:hidden"
+                />
 
-            <div className="mt-7 flex flex-col pt-5">
-              <Link
-                href="add-listing"
-                className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 text-center w-full"
-              >
-                Add New Listing
-              </Link>
+                {/* User Information */}
+                <UserInformation user={user} />
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </TabsContent>
+        <TabsContent value="account">
+          <UpdateAccountDetails />
+        </TabsContent>
+        <TabsContent value="password">
+          <PasswordChange />
+        </TabsContent>
+        <TabsContent value="settings">
+          <AccountSettings />
+        </TabsContent>
+      </Tabs>
     </section>
   );
 };
 
-export default DashboardPage;
+export default AccountPage;

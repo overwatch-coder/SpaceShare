@@ -21,7 +21,7 @@ const Logout = () => {
     <section>
       <button
         onClick={logoutUser}
-        className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition w-full"
+        className="bg-pink-500 rounded uppercase text-white py-2 px-5 text-center hover:scale-105 transition w-full"
       >
         Logout
       </button>

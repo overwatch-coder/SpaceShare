@@ -65,7 +65,9 @@ const ListingForm = () => {
     if (!result.success) {
       return Swal.fire({
         title: "Oops!",
-        text: result.error?.message,
+        text: Array.isArray(result.error?.message)
+          ? result.error?.message.join(", ")
+          : result.error?.message,
         icon: "error",
         timer: 4000,
         timerProgressBar: true,

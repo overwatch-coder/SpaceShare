@@ -1,4 +1,4 @@
-import { getServerUser } from "@/app/actions/user.actions";
+import { currentUser } from "@/app/actions/user.actions";
 import BookingForm from "@/app/listings/[id]/BookingForm";
 import { Property } from "@/types/index";
 import React from "react";
@@ -8,7 +8,7 @@ type BookingFormProps = {
 };
 
 const BookingSheet = async ({ property }: BookingFormProps) => {
-  const { user } = await getServerUser();
+  const { user } = await currentUser();
   return (
     <section className="flex flex-col gap-5">
       <div className="flex flex-col gap-6 bg-gray-200 rounded-md shadow p-4">

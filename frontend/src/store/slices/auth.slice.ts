@@ -20,7 +20,7 @@ export const authSlice = createSlice({
     },
     removeAuth: (state) => {
       state.auth = null;
-    },
+    }
   },
 });
 

@@ -12,7 +12,7 @@ import LoginSubmitButton from "@/app/(auth)/login/LoginSubmitButton";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
-import { redirect, useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const { user } = useAuth();
@@ -38,7 +38,9 @@ const LoginPage = () => {
     if (!result.success) {
       return Swal.fire({
         title: "Oops!",
-        text: result.error?.message,
+        text: Array.isArray(result.error?.message)
+          ? result.error?.message.join(", ")
+          : result.error?.message,
         icon: "error",
         timer: 4000,
         timerProgressBar: true,
@@ -58,7 +60,7 @@ const LoginPage = () => {
 
   return (
     <section className="flex flex-col justify-center items-center mt-32 pb-20">
-      <div className="flex flex-col gap-5 p-10 rounded-md shadow-2xl bg-white max-w-md w-full">
+      <div className="flex flex-col gap-5 p-10 bg-white rounded shadow-sm border border-gray-200 max-w-xl w-full mx-auto">
         <h1 className="text-2xl font-bold text-pink-600">Login</h1>
         <p className="text-gray-500 text-sm">
           Welcome! Please login to continue

@@ -1,14 +1,20 @@
-import UpdateBookingStatus from "@/app/(protected)/dashboard/UpdateBookingStatus";
+import UpdateBookingStatus from "@/app/(protected)/dashboard/bookings/UpdateBookingStatus";
 import { getBookings } from "@/app/actions/bookings.actions";
-import { getServerUser } from "@/app/actions/user.actions";
+import { currentUser } from "@/app/actions/user.actions";
 import { Booking } from "@/types/index";
+import { Metadata } from "next";
 import React from "react";
 
-const UserBookings = async () => {
-  const { user } = await getServerUser();
+export const metadata: Metadata = {
+  title: "Your Bookings - Dashboard",
+  description: "Manage your bookings with ease",
+};
+
+const BookingsPage = async () => {
+  const { user } = await currentUser();
   const bookings: Booking[] = await getBookings("bookings");
   return (
-    <div className="container mx-auto py-8 flex flex-col gap-5 flex-1">
+    <div className="container mx-auto py-8 flex flex-col gap-5 flex-1 mt-20 w-full">
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">My Bookings</h2>
         {bookings.length > 0 ? (
@@ -106,4 +112,4 @@ const UserBookings = async () => {
   );
 };
 
-export default UserBookings;
+export default BookingsPage;

@@ -1,5 +1,5 @@
 import ListingForm from "@/app/(protected)/add-listing/ListingForm";
-import { getServerUser } from "@/app/actions/user.actions";
+import { currentUser } from "@/app/actions/user.actions";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const AddListing = async () => {
-  const { user } = await getServerUser();
+  const { user } = await currentUser();
   if (!user) {
     return redirect("/login");
   }
@@ -20,7 +20,7 @@ const AddListing = async () => {
   }
 
   return (
-    <section className="mt-32 px-8 md:px-16 max-w-3xl mx-auto py-10">
+    <section className="mt-32 px-8 md:px-16 max-w-4xl mx-auto py-10">
       <div className="w-full flex flex-col gap-5 shadow-md p-10">
         <h2 className="font-semibold text-4xl text-pink-500">
           Add New Listing
