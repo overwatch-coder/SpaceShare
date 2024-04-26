@@ -58,7 +58,7 @@ const BookingForm = ({ property }: BookingFormProps) => {
 
     reset();
 
-    router.replace("/dashboard");
+    router.replace("/dashboard/bookings");
   };
 
   return (

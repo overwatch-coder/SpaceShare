@@ -41,7 +41,7 @@ const BookingSheet = async ({ property }: BookingFormProps) => {
             <span className="text-3xl">${property.ratePerNight}</span> / night
           </h3>
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-sm">
             {new Date(property.minAvailableDate).toDateString()} -{" "}
             {new Date(property.maxAvailableDate).toDateString()}
           </p>

@@ -1,7 +1,6 @@
 import ListingCarousel from "@/components/ListingCarousel";
 import { formatTimeAgo } from "@/lib/timeago";
 import { Property } from "@/types/index";
-import Link from "next/link";
 import { IoLocationSharp } from "react-icons/io5";
 
 type ListingDetailsSummaryProps = {

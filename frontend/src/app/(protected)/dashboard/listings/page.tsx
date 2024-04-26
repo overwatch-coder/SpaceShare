@@ -28,10 +28,11 @@ const ListingsPage = async () => {
   }
 
   return (
-    <div className="bg-white mt-20 container w-full mx-auto">
-      <h2 className="text-xl font-semibold mb-4">My Listings</h2>
+    <div className="bg-white mt-20 container w-full mx-auto py-16">
+      <h2 className="text-2xl md:text-4xl font-semibold mb-4">My Listings</h2>
       <p className="text-gray-700">
-        You have {listings.length} listings available.
+        You have {listings.length}{" "}
+        {listings.length === 1 ? "listing" : "listings"} available.
       </p>
 
       {/* Display all listings here */}
@@ -39,7 +40,7 @@ const ListingsPage = async () => {
         listings.map((listing) => (
           <div
             key={listing._id}
-            className="mt-4 border-b border-gray-200 pb-4 relative shadow-md rounded-md p-3 flex flex-col gap-2"
+            className="mt-4 border-b border-gray-200 pb-4 relative shadow-md rounded-md p-3 md:p-5 flex flex-col gap-2"
           >
             <h3 className="text-gray-900 flex flex-col gap-1">
               <span className="font-semibold text-lg">Property</span>
@@ -70,10 +71,10 @@ const ListingsPage = async () => {
           </div>
         ))}
 
-      <div className="mt-7 flex flex-col pt-5">
+      <div className="mt-7 flex flex-col items-center pt-5">
         <Link
           href="add-listing"
-          className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 text-center w-full"
+          className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 text-center w-full md:w-fit"
         >
           Add New Listing
         </Link>

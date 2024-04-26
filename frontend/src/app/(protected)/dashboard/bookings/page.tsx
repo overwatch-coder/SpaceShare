@@ -21,8 +21,12 @@ const BookingsPage = async () => {
           <div className="flex flex-col gap-5">
             <p className="text-gray-700">
               {user.role === "host"
-                ? `You have ${bookings.length} bookings to manage`
-                : `You have ${bookings.length} bookings.`}
+                ? `You have ${bookings.length} ${
+                    bookings.length === 1 ? "booking" : "bookings"
+                  } to manage`
+                : `You have ${bookings.length} ${
+                    bookings.length === 1 ? "booking" : "bookings"
+                  }`}
             </p>
 
             <div className="flex flex-col w-full gap-8">
