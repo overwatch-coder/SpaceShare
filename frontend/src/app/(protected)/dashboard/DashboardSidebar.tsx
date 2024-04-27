@@ -1,5 +1,6 @@
 "use client";
 import Logout from "@/components/Logout";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,25 +26,29 @@ const DashboardSidebar = () => {
         {dashboardLinks.map((link) => {
           const active = pathname === link.path;
           const isUserHost = user?.role === "host";
-          const isPathnameListing = pathname.startsWith("/dashboard/listings");
-          const isPathnameAddListing = pathname.startsWith("/add-listing");
-          const isHostAndListings = isUserHost && isPathnameListing;
-          const isHostAndAddListing = isUserHost && isPathnameAddListing;
 
           return (
-            <Link
+            <Button
               key={link.path}
-              href={link.path}
-              className={`${
-                active
-                  ? "bg-pink-500 rounded text-white"
-                  : "text-pink-500 hover:text-white hover:rounded hover:bg-pink-500"
-              } px-3 py-2 hover:scale-105 transition ${
-                isHostAndAddListing && "hidden"
-              } ${isHostAndListings && "hidden"}`}
+              asChild
+              disabled={
+                isUserHost &&
+                (link.path === "/add-listing" ||
+                  link.path === "/dashboard/listings")
+              }
             >
-              {link.name}
-            </Link>
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`${
+                  active
+                    ? "bg-pink-500 rounded text-white"
+                    : "text-pink-500 hover:text-white hover:rounded hover:bg-pink-500"
+                } px-3 py-2 hover:scale-105 transition`}
+              >
+                {link.name}
+              </Link>
+            </Button>
           );
         })}
 
