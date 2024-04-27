@@ -13,12 +13,11 @@ export const findUser = async (
     .lean()
     .exec();
 
-  if (selectPassword && (!user || user === null)) {
-    throw createHttpError("Invalid credentials", HttpStatusCode.Unauthorized);
-  } else {
-    if (!user || user === null) {
-      throw createHttpError("User not found", HttpStatusCode.NotFound);
-    }
+  if (!user || user === null) {
+    throw createHttpError(
+      "Account does not exist. Please sign up",
+      HttpStatusCode.NotFound
+    );
   }
 
   // return user
