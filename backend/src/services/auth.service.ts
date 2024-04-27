@@ -23,14 +23,42 @@ export const updateUser = async (data: UpdateUserType, user: UserType) => {
   // check if interest and hobbies are present and convert them to an array and remove duplicates
   if (data.interests) {
     interestsArray = Array.isArray(data.interests)
-      ? [...new Set([...data.interests, ...user.interests])]
-      : [...new Set([...data.interests.split(","), ...user.interests])];
+      ? Array.from(
+          new Set([
+            ...data.interests.map((x) => x.trim().toLowerCase()),
+            ...(user.interests as string[]).map((x: string) =>
+              x.trim().toLowerCase()
+            ),
+          ])
+        )
+      : Array.from(
+          new Set([
+            ...data.interests.split(",").map((x) => x.trim().toLowerCase()),
+            ...(user.interests as string[]).map((x: string) =>
+              x.trim().toLowerCase()
+            ),
+          ])
+        );
   }
 
   if (data.hobbies) {
     hobbiesArray = Array.isArray(data.hobbies)
-      ? [...new Set([...data.hobbies, ...user.hobbies])]
-      : [...new Set([...data.hobbies.split(","), ...user.hobbies])];
+      ? Array.from(
+          new Set([
+            ...data.hobbies.map((x) => x.trim().toLowerCase()),
+            ...(user.hobbies as string[]).map((x: string) =>
+              x.trim().toLowerCase()
+            ),
+          ])
+        )
+      : Array.from(
+          new Set([
+            ...data.hobbies.split(",").map((x) => x.trim().toLowerCase()),
+            ...(user.hobbies as string[]).map((x: string) =>
+              x.trim().toLowerCase()
+            ),
+          ])
+        );
   }
 
   if (data.password) {

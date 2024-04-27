@@ -119,7 +119,6 @@ export const userUpdate = asyncHandler(
   async (req: Request<any, any, UpdateUserType>, res: Response) => {
     const user = req.user;
     const userData = req.body;
-    console.log({ userData });
 
     if (userData.email && !validator.isEmail(userData.email)) {
       throw createHttpError("Invalid email address", HttpStatusCode.BadRequest);

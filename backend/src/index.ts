@@ -1,8 +1,11 @@
-import 'module-alias/register'
-
 // configure env in the entire application
 import dotenv from "dotenv";
 dotenv.config();
+
+// import this module only in production
+if (process.env.NODE_ENV === "production") {
+  require("module-alias/register");
+}
 
 // import packages
 import express from "express";
