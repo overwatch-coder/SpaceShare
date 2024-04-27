@@ -1,7 +1,9 @@
 "use client";
 
+import { changePassword } from "@/app/actions/user.actions";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const PasswordChange = () => {
   const [password, setPassword] = useState("");
@@ -34,13 +36,7 @@ const PasswordChange = () => {
       });
     }
 
-    // const result = await changePassword(password);
-    const result = {
-      success: false,
-      error: {
-        message: "Password could not be changed successfully",
-      },
-    };
+    const result = await changePassword(password);
 
     setPassword("");
     setConfirmPassword("");
@@ -104,7 +100,11 @@ const PasswordChange = () => {
           type="submit"
           className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 w-full"
         >
-          {pending ? "Updating..." : "Update"}
+          {pending ? (
+            <ClipLoader size={28} loading={pending} color="white" />
+          ) : (
+            "Change"
+          )}
         </button>
       </form>
     </div>

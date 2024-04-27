@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const UpdateAccountDetails = () => {
   const router = useRouter();
@@ -30,7 +31,6 @@ const UpdateAccountDetails = () => {
 
   const processBookSubmit: SubmitHandler<UpdateUserType> = async (data) => {
     const result = await updateAccount(data);
-    console.log({ result });
     if (!result.success) {
       return Swal.fire({
         title: "Oops!",
@@ -293,7 +293,11 @@ export const UpdateAccountSubmitButton = ({
         disabled={pending}
         className="bg-pink-500 py-5 hover:bg-pink-400 text-white text-center w-full"
       >
-        {pending ? "Updating..." : "Update"}
+        {pending ? (
+          <ClipLoader size={28} loading={pending} color="white" />
+        ) : (
+          "Update"
+        )}
       </Button>
 
       <Button

@@ -14,6 +14,28 @@ import age from "@whitetrefoil/s-age-ts";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
+// currently logged in user details
+export const currentUser = async () => {
+  const cookieStore = cookies();
+  const token = cookieStore.has("access_token")
+    ? cookieStore.get("access_token")?.value
+    : "";
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data: ResponseType = await res.json();
+
+  const user: User = data.data;
+
+  return { user, token };
+};
+
 // login
 export const loginFormSubmit = async (data: Login) => {
   const validatedData = loginSchema.safeParse(data);
@@ -178,26 +200,26 @@ export const updateAvatar = async (formData: FormData) => {
   return data;
 };
 
-// currently logged in user details
-export const currentUser = async () => {
-  const cookieStore = cookies();
-  const token = cookieStore.has("access_token")
-    ? cookieStore.get("access_token")?.value
-    : "";
+// change password
+export const changePassword = async (password: string) => {
+  const { token } = await currentUser();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/update-profile`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password }),
+    }
+  );
 
   const data: ResponseType = await res.json();
 
-  const user: User = data.data;
-
-  return { user, token };
+  revalidatePath("/dashboard");
+  return data;
 };
 
 // delete account

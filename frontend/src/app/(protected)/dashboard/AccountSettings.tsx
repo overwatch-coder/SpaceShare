@@ -23,12 +23,12 @@ const AccountSettings = () => {
       confirmButtonText: "Confirm",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const deleteResults = await deleteAccount();
+        const deletedResults = await deleteAccount();
 
-        if (!deleteResults.success) {
+        if (!deletedResults.success) {
           Swal.fire({
             title: "Error!",
-            text: deleteResults.error?.message,
+            text: deletedResults.error?.message,
             icon: "error",
           });
         } else {

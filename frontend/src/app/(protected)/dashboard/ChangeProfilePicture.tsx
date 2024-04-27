@@ -86,7 +86,6 @@ const ChangeProfilePicture = () => {
         <FileDrop
           accept={[".jpg", ".jpeg", ".png", ".gif"]}
           onDropAccepted={(file) => {
-            console.log({ file: file[0] });
             setProfilePicture(file[0]);
           }}
           renderLabel={() => (

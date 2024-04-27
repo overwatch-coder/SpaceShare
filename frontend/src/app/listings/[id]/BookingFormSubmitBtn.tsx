@@ -5,6 +5,7 @@ import { BookingFormType } from "@/schema/bookings.schema";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ClipLoader from "react-spinners/ClipLoader";
 
 type BookingFormSubmitBtnProps = {
   pending: boolean;
@@ -33,7 +34,11 @@ const BookingFormSubmitBtn = ({
             disabled={pending}
             className="bg-pink-500 py-5 hover:bg-pink-400 text-white text-center w-full"
           >
-            {pending ? "Booking..." : "Book Now"}
+            {pending ? (
+              <ClipLoader size={28} loading={pending} color="white" />
+            ) : (
+              "Book Now"
+            )}
           </Button>
 
           <Button

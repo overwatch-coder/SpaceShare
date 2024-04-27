@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { UseFormReset } from "react-hook-form";
 import { ListingType } from "@/schema/listing.schema";
+import ClipLoader from "react-spinners/ClipLoader";
 
 type AddListingFormSubmitButtonProps = {
   pending: boolean;
@@ -18,7 +19,11 @@ const AddListingFormSubmitButton = ({
         disabled={pending}
         className="bg-pink-500 py-5 hover:bg-pink-400 text-white text-center w-full"
       >
-        {pending ? "Please wait..." : "Add Listing"}
+        {pending ? (
+          <ClipLoader size={28} loading={pending} color="white" />
+        ) : (
+          "Add Listing"
+        )}
       </Button>
 
       <Button

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Booking } from "@/types/index";
 import { FormEvent, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
@@ -112,7 +113,11 @@ const UpdateBookingStatus = ({ booking }: UpdateBookingStatusProps) => {
               type="submit"
               className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600"
             >
-              {pending ? "Updating..." : "Update"}
+              {pending ? (
+                <ClipLoader size={28} loading={pending} color="white" />
+              ) : (
+                "Update"
+              )}
             </button>
           </form>
         </DialogHeader>

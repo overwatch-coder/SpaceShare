@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { UseFormReset } from "react-hook-form";
 import { Login } from "@/schema/user.schema";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const LoginSubmitButton = ({
   pending,
@@ -16,7 +17,11 @@ const LoginSubmitButton = ({
         disabled={pending}
         className="bg-pink-500 py-5 hover:bg-pink-400 text-white text-center w-full"
       >
-        {pending ? "Please wait..." : "Login"}
+        {pending ? (
+          <ClipLoader size={28} loading={pending} color="white" />
+        ) : (
+          "Login"
+        )}
       </Button>
 
       <Button
