@@ -63,7 +63,7 @@ const PasswordChange = () => {
     });
   };
   return (
-    <div className="w-full max-w-2xl p-6 flex flex-col gap-5 mt-10 border border-primary-dark rounded shadow-md">
+    <div className="w-full max-w-2xl p-6 flex flex-col gap-5 mt-10 md:border md:border-primary-dark rounded shadow-md">
       <h2 className="font-semibold text-3xl text-primary-dark">
         Change Password
       </h2>

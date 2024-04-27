@@ -1,7 +1,7 @@
 import FlashScreenLoader from "@/components/FlashScreenLoader";
 
-const Loading = () => {
+const DashboardLoader = () => {
   return <FlashScreenLoader />;
 };
 
-export default Loading;
+export default DashboardLoader;

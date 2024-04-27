@@ -1,6 +1,6 @@
 import { getListings } from "@/app/actions/listings.actions";
-import BookingSheet from "@/app/listings/[id]/BookingSheet";
-import ListingDetailsSummary from "@/app/listings/[id]/ListingDetailsSummary";
+import BookingSheet from "@/app/(root)/listings/[id]/BookingSheet";
+import ListingDetailsSummary from "@/app/(root)/listings/[id]/ListingDetailsSummary";
 import BreadCrumpLinks from "@/components/BreadCrumpLinks";
 import { Property } from "@/types/index";
 import { Metadata } from "next";

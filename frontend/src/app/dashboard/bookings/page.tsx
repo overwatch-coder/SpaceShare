@@ -1,4 +1,4 @@
-import UpdateBookingStatus from "@/app/(protected)/dashboard/bookings/UpdateBookingStatus";
+import UpdateBookingStatus from "@/app/dashboard/bookings/UpdateBookingStatus";
 import { getBookings } from "@/app/actions/bookings.actions";
 import { currentUser } from "@/app/actions/user.actions";
 import { Booking } from "@/types/index";
@@ -14,9 +14,9 @@ const BookingsPage = async () => {
   const { user } = await currentUser();
   const bookings: Booking[] = await getBookings("bookings");
   return (
-    <div className="container mx-auto py-8 flex flex-col gap-5 flex-1 mt-20 w-full">
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">My Bookings</h2>
+    <div className="container mx-auto py-8 flex flex-col gap-5 flex-1 w-full">
+      <div className="bg-white p-2 md:p-6">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4">My Bookings</h2>
         {bookings.length > 0 ? (
           <div className="flex flex-col gap-5">
             <p className="text-gray-700">

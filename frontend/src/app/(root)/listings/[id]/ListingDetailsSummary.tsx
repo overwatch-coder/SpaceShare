@@ -18,18 +18,18 @@ const ListingDetailsSummary = ({ property }: ListingDetailsSummaryProps) => {
       <ListingCarousel listingImages={listingImages} />
 
       <div className="flex flex-col gap-3 py-4">
-        <h3 className="font-semibold text-2xl md:text-4xl text-pink-600">
+        <h3 className="font-semibold text-3xl md:text-4xl text-pink-600">
           {property.name}
         </h3>
 
-        <div className="flex items-center justify-between">
-          <p className="text-center text-black flex items-center justify-center gap-3">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <p className="md:text-center text-black flex items-center md:justify-center gap-1">
             <IoLocationSharp size={30} className="text-black" />
             <span className="text-lg font-medium">{property.location}</span>
           </p>
 
           <p className="text-lg font-medium text-black">
-            <span className="text-2xl">${property.ratePerNight}</span> / night
+            <span className="text-3xl">${property.ratePerNight}</span> / night
           </p>
         </div>
       </div>
@@ -53,6 +53,7 @@ const ListingDetailsSummary = ({ property }: ListingDetailsSummaryProps) => {
         </p>
         <p className="text-lg">
           <span className="font-semibold">Available Between:</span>{" "}
+          <br className="md:hidden" />
           {new Date(property.minAvailableDate).toDateString()} -{" "}
           {new Date(property.maxAvailableDate).toDateString()}
         </p>

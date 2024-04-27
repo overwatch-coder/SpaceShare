@@ -8,10 +8,12 @@ import HeaderNavigationMenu from "@/components/HeaderDropdownMenu";
 import { useAuth } from "@/hooks/useAuth";
 import UserProfile from "@/components/UserProfile";
 
-const Header = () => {
+const Header = ({ classname }: { classname?: string }) => {
   const { user } = useAuth();
   return (
-    <header className="w-screen fixed z-50 top-0 py-1 bg-primary-dark shadow-md">
+    <header
+      className={`w-screen fixed z-50 top-0 py-1 bg-primary-dark shadow-md ${classname}`}
+    >
       <section className="flex items-center justify-between px-5 md:px-16">
         {/* Logo */}
         <Link href={"/"} className="flex items-center">
@@ -29,9 +31,6 @@ const Header = () => {
             <span className="text-xs text-white">Vacation Rentals</span>
           </p>
         </Link>
-
-        {/* Show Profile on mobile page */}
-        <div className="md:hidden">{user && <UserProfile />}</div>
 
         {/* Desktop Nav */}
         <nav className="items-center gap-7 hidden md:flex">

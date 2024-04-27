@@ -39,6 +39,7 @@
     "sharp": "^0.33.3",
     "sweetalert2": "^11.4.8",
     "tailwind-merge": "^2.2.2",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.5"
   },

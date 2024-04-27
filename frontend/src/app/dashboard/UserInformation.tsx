@@ -29,7 +29,7 @@ const UserInformation = ({ user }: { user: User }) => {
         </p>
       )}
 
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-start md:gap-10">
+      <div className="flex gap-4 flex-row md:justify-start md:gap-10">
         {user.gender && (
           <p className="text-gray-600 capitalize">
             <span className="font-semibold text-primary-dark">Gender:</span>{" "}
@@ -45,7 +45,7 @@ const UserInformation = ({ user }: { user: User }) => {
         )}
       </div>
 
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-start md:gap-10">
+      <div className="flex gap-4 flex-row md:justify-start md:gap-10">
         <p className="text-gray-600">
           <span className="font-semibold text-primary-dark">Smoker:</span>{" "}
           {user.smoker ? "Yes" : "No"}
@@ -62,7 +62,7 @@ const UserInformation = ({ user }: { user: User }) => {
         {user.pets ? "You have pets" : "You do not have pets"}
       </p>
 
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-start md:gap-10">
+      <div className="flex gap-4 flex-row md:justify-start md:gap-10">
         <p className="text-gray-600 flex flex-col gap-2">
           <span className="font-semibold text-primary-dark">Hobbies:</span>{" "}
           {user.hobbies.length > 0 ? (

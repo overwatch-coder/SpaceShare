@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 
-const UserAvatar = () => {
+const UserAvatar = ({ nameClass }: { nameClass?: string }) => {
   const { user } = useAuth();
   const defaultUrl =
     "https://res.cloudinary.com/cloudinary/image/upload/v1667394529/avatars/avatars/default.png";
@@ -20,7 +20,9 @@ const UserAvatar = () => {
         <AvatarImage src={userProfiePicture} />
         <AvatarFallback>{fallBackName.toUpperCase()}</AvatarFallback>
       </Avatar>
-      <p className="text-white text-lg">{user?.username || "Guest"}</p>
+      <p className={`text-white text-lg ${nameClass}`}>
+        {user?.username || "Guest"}
+      </p>
     </div>
   );
 };

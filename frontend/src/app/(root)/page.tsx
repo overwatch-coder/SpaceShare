@@ -31,16 +31,17 @@ const HomePage = async () => {
           </p>
 
           {/* Call To Action Buttons */}
-          <div className="text-center flex flex-col gap-4 md:flex-row md:items-center">
+          <div className="text-center flex flex-col gap-4 md:flex-row items-center mx-auto w-full md:w-auto px-8 md:px-0">
             <Link
               href={"/register?role=host"}
-              className="bg-pink-500 hover:bg-pink-400 rounded-md px-5 py-2 text-center text-white"
+              className="bg-pink-500 hover:bg-pink-400 rounded-md px-5 py-3 md:py-2 text-center text-white w-full md:w-fit"
             >
               Share Your Room
             </Link>
+
             <Link
               href={"/register?role=client"}
-              className="bg-white/90 hover:bg-white/80 rounded-md px-5 py-2 text-primary-dark"
+              className="bg-white/90 hover:bg-white/80 rounded-md px-5 py-3 md:py-2 text-primary-dark w-full md:w-fit"
             >
               Rent A Room
             </Link>

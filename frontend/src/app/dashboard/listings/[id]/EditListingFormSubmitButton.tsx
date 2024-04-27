@@ -34,10 +34,10 @@ const EditListingFormSubmitButton = ({
         disabled={pending}
         onClick={() => router.back()}
         type="reset"
-        variant={"destructive"}
+        variant={"secondary"}
         className="text-center w-full"
       >
-        Cancel
+        Go Back
       </Button>
     </div>
   );

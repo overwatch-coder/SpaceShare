@@ -4,7 +4,7 @@ import { Property } from "@/types/index";
 import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import DeleteAlert from "@/app/(protected)/dashboard/listings/DeleteAlert";
+import DeleteAlert from "@/app/dashboard/listings/DeleteAlert";
 
 export const metadata: Metadata = {
   title: "Your Listings - Dashboard",
@@ -28,7 +28,7 @@ const ListingsPage = async () => {
   }
 
   return (
-    <div className="bg-white mt-20 container w-full mx-auto py-16">
+    <div className="bg-white container w-full mx-auto py-16 md:py-10">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl md:text-4xl font-semibold mb-4">
@@ -40,12 +40,12 @@ const ListingsPage = async () => {
           </p>
         </div>
 
-        <div className="mt-7 flex flex-col items-center pt-5">
+        <div className="md:mt-7 flex flex-col items-center md:pt-5">
           <Link
             href="/dashboard/listings/add-new"
-            className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 text-center w-full md:w-fit"
+            className="bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:bg-pink-600 text-center text-sm md:text-base w-full md:w-fit"
           >
-            Add New Listing
+            Add New
           </Link>
         </div>
       </div>

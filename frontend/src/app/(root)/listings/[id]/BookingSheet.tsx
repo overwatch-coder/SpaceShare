@@ -1,5 +1,5 @@
 import { currentUser } from "@/app/actions/user.actions";
-import BookingForm from "@/app/listings/[id]/BookingForm";
+import BookingForm from "@/app/(root)/listings/[id]/BookingForm";
 import { Property } from "@/types/index";
 import React from "react";
 

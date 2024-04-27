@@ -8,16 +8,12 @@ import UserAvatar from "@/components/UserAvatar";
 import Logout from "@/components/Logout";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { User as UserType } from "@/types/index";
+import { dashboardLinks } from "@/constants";
 
-const UserProfile = () => {
+const DashboardSidebarMobile = ({ user }: { user: UserType }) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const profileLinks = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Bookings", path: "/dashboard/bookings" },
-    { name: "Share A Room", path: "/dashboard/listings/add-new" },
-    { name: "Rent A Room", path: "/listings" },
-  ];
 
   useEffect(() => {
     if (pathname) {
@@ -31,11 +27,14 @@ const UserProfile = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-      <SheetTrigger>
-        <UserAvatar nameClass="hidden md:block" />
+      <SheetTrigger className="md:hidden">
+        <UserAvatar nameClass="hidden" />
       </SheetTrigger>
 
-      <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll">
+      <SheetContent
+        side="left"
+        className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll md:hidden"
+      >
         <section className="mb-auto">
           {/* Logo */}
           <div className="flex flex-col gap-3">
@@ -63,26 +62,35 @@ const UserProfile = () => {
             <div className="flex flex-col gap-5">
               <UserAvatar />
 
-              {/* Links */}
-              <div className="flex flex-col gap-5 pt-5">
-                <p className="text-white font-semibold text-lg py-3 border-b-2 border-white/70">
-                  Manage Profile
-                </p>
+              {/* Dashboard Menu Items */}
+              <ul className="flex flex-col gap-7">
+                {dashboardLinks.map((link) => {
+                  const active = pathname === link.path;
+                  const isUserHost = user?.role === "host";
+                  if (
+                    !isUserHost &&
+                    link.path === "/dashboard/listings/add-new"
+                  )
+                    return null;
+                  if (!isUserHost && link.path === "/dashboard/listings")
+                    return null;
 
-                {profileLinks.map((link, idx) => (
-                  <Link
-                    key={idx}
-                    href={link.path}
-                    className={`text-white py-2 transition px-4 hover:scale-105 ${
-                      pathname === link.path
-                        ? "bg-pink-500"
-                        : "hover:bg-pink-500"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+                  return (
+                    <Link
+                      key={link.path}
+                      href={link.path}
+                      className={`${
+                        active
+                          ? "bg-pink-500 rounded"
+                          : "text-pink-500 hover:rounded hover:bg-pink-500"
+                      } px-3 py-2 hover:scale-105 transition text-white flex items-center gap-2`}
+                    >
+                      <link.icon size={20} color="white" />
+                      <span>{link.name}</span>
+                    </Link>
+                  );
+                })}
+              </ul>
             </div>
           </nav>
         </section>
@@ -92,4 +100,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default DashboardSidebarMobile;

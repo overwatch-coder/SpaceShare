@@ -46,7 +46,7 @@ const AccountSettings = () => {
   };
 
   return (
-    <section className="shadow-md border-red-600 rounded border p-4 flex flex-col space-y-5 mt-10">
+    <section className="shadow-md border-red-600 mx-5 md:mx-auto rounded border p-4 flex flex-col space-y-5 mt-10">
       <h2 className="font-semibold text-lg text-red-600">Danger Zone</h2>
 
       <div className="flex flex-col space-y-5 md:space-y-0 md:items-center md:justify-between md:flex-row">

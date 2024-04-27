@@ -4,25 +4,17 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
-import {
-  updateListingSchema,
-  UpdateListingType,
-} from "@/schema/listing.schema";
+import { listingSchema, ListingType } from "@/schema/listing.schema";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import AddListingFormSubmitButton from "@/app/dashboard/listings/add-new/AddListingFormSubmitButton";
 import { submitListingForm } from "@/app/actions/listings.actions";
 import { toast } from "react-toastify";
-import EditListingFormSubmitButton from "@/app/(protected)/dashboard/listings/[id]/EditListingFormSubmitButton";
-import { Property } from "@/types/index";
-import ImagePreview from "@/components/ImagePreview";
-import { Upload } from "lucide-react";
 import { FileDrop } from "@instructure/ui-file-drop";
+import { Upload } from "lucide-react";
+import ImagePreview from "@/components/ImagePreview";
 
-type EditListingFormProps = {
-  listing: Property;
-};
-
-const EditListingForm = ({ listing }: EditListingFormProps) => {
+const ListingForm = () => {
   const [imageFiles, setImageFiles] = useState<{
     coverImage: any;
     images: any;
@@ -35,14 +27,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
     reset,
     formState: { errors, isSubmitting: pending },
     handleSubmit,
-  } = useForm<UpdateListingType>({
-    resolver: zodResolver(updateListingSchema),
+  } = useForm<ListingType>({
+    resolver: zodResolver(listingSchema),
     mode: "all",
   });
 
-  const submitListingHandler: SubmitHandler<UpdateListingType> = async (
-    data
-  ) => {
+  const submitListingHandler: SubmitHandler<ListingType> = async (data) => {
     const formdata = new FormData();
     formdata.append("coverImage", imageFiles.coverImage);
     if (imageFiles.images.length > 0) {
@@ -55,8 +45,7 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
     const result = await submitListingForm(
       JSON.parse(JSON.stringify(data)),
       user?._id!,
-      formdata,
-      listing._id
+      formdata
     );
     if (!result.success) {
       return Swal.fire({
@@ -84,15 +73,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
       {/* Property Name */}
       <div className="flex flex-col space-y-4 w-full">
         <label htmlFor="name">Title of Listing</label>
-
         <input
           type="text"
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("name")}
           placeholder="Give your listing a title"
-          defaultValue={listing.name}
         />
-
         {errors?.name?.message && (
           <p className="text-red-500 text-xs py-2">{errors.name.message}</p>
         )}
@@ -101,15 +87,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
       {/* Property Description */}
       <div className="flex flex-col space-y-4 w-full">
         <label htmlFor="description">Propery Description</label>
-
         <textarea
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("description")}
           placeholder="give a description to your property"
           rows={10}
-          defaultValue={listing.description}
         />
-
         {errors?.description?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.description.message}
@@ -120,15 +103,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
       {/* Property Location */}
       <div className="flex flex-col space-y-4 w-full">
         <label htmlFor="location">Location</label>
-
         <input
           type="text"
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("location")}
           placeholder="property location"
-          defaultValue={listing.location}
         />
-
         {errors?.location?.message && (
           <p className="text-red-500 text-xs py-2">{errors.location.message}</p>
         )}
@@ -137,15 +117,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
       {/* Rate per Night */}
       <div className="flex flex-col space-y-4 w-full">
         <label htmlFor="ratePerNight">Rate Per Night</label>
-
         <input
           type="text"
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("ratePerNight")}
           placeholder="Rate per night"
-          defaultValue={listing.ratePerNight}
         />
-
         {errors?.ratePerNight?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.ratePerNight.message}
@@ -161,15 +138,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
         >
           Available From
         </label>
-
         <input
           type="date"
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("minAvailableDate")}
           min={new Date().toISOString().split("T")[0]}
-          defaultValue={listing.minAvailableDate.split("T")[0]}
         />
-
         {errors?.minAvailableDate?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.minAvailableDate.message}
@@ -185,15 +159,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
         >
           Available Until
         </label>
-
         <input
           type="date"
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("maxAvailableDate")}
           min={new Date().toISOString().split("T")[0]}
-          defaultValue={listing.maxAvailableDate.split("T")[0]}
         />
-
         {errors?.maxAvailableDate?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.maxAvailableDate.message}
@@ -209,23 +180,20 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
         >
           Max Number of People
         </label>
-
         <div className="relative">
           <select
             id="numberOfGuests"
             className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
             {...register("numberOfGuests")}
-            defaultValue={listing.numberOfGuests}
           >
             <option>Max Number of People</option>
-            {Array.from({ length: 7 }, (_, i) => i + 1).map((num) => (
+            {Array.from({ length: 6 }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
-                {num > 9 ? num : `0${num}`}
+                0{num}
               </option>
             ))}
           </select>
         </div>
-
         {errors?.numberOfGuests?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.numberOfGuests.message}
@@ -241,23 +209,20 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
         >
           Available Rooms
         </label>
-
         <div className="relative">
           <select
             id="numberOfRooms"
             className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
             {...register("numberOfRooms")}
-            defaultValue={listing.numberOfRooms}
           >
             <option>Available Rooms</option>
-            {Array.from({ length: 7 }, (_, i) => i + 1).map((num) => (
+            {Array.from({ length: 6 }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
-                {num > 9 ? num : `0${num}`}
+                0{num}
               </option>
             ))}
           </select>
         </div>
-
         {errors?.numberOfRooms?.message && (
           <p className="text-red-500 text-xs py-2">
             {errors.numberOfRooms.message}
@@ -265,7 +230,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
         )}
       </div>
 
-      {/* Cover Image */}
       <div className="mb-4">
         <label
           htmlFor="coverImage"
@@ -291,10 +255,8 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           )}
         />
 
-        {imageFiles.coverImage ? (
+        {imageFiles.coverImage && (
           <ImagePreview image={URL.createObjectURL(imageFiles.coverImage)} />
-        ) : (
-          <ImagePreview image={listing.coverImage} />
         )}
       </div>
 
@@ -323,21 +285,12 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
             </div>
           )}
         />
-
-        {imageFiles.images.length > 0 ? (
+        {imageFiles.images.length > 0 && (
           <div className="flex items-center gap-5 flex-wrap">
             {imageFiles.images.map((image: File, idx: number) => (
               <ImagePreview image={URL.createObjectURL(image)} key={idx} />
             ))}
           </div>
-        ) : (
-          listing.images.length > 0 && (
-            <div className="flex items-center gap-5 flex-wrap">
-              {listing.images.map((image: string, idx: number) => (
-                <ImagePreview image={image} key={idx} />
-              ))}
-            </div>
-          )
         )}
       </div>
 
@@ -352,13 +305,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("amenities")}
           placeholder="eg: wifi, tv, air conditioning, gym"
-          defaultValue={
-            listing.amenities.length > 0
-              ? listing.amenities
-                  .map((amenity) => amenity.name.trim().toLowerCase())
-                  .join(", ")
-              : ""
-          }
         />
         {errors?.amenities?.message && (
           <p className="text-red-500 text-xs py-2">
@@ -375,7 +321,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("rating")}
           placeholder="rating"
-          defaultValue={listing.rating}
         />
         {errors?.rating?.message && (
           <p className="text-red-500 text-xs py-2">{errors.rating.message}</p>
@@ -390,7 +335,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("address")}
           placeholder="exact location of property"
-          defaultValue={listing.address}
         />
         {errors?.address?.message && (
           <p className="text-red-500 text-xs py-2">{errors.address.message}</p>
@@ -407,7 +351,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("minRentalTime")}
           placeholder="enter a number"
-          defaultValue={listing.minRentalTime}
         />
         {errors?.minRentalTime?.message && (
           <p className="text-red-500 text-xs py-2">
@@ -426,7 +369,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("maxRentalTime")}
           placeholder="enter a number"
-          defaultValue={listing.maxRentalTime}
         />
         {errors?.maxRentalTime?.message && (
           <p className="text-red-500 text-xs py-2">
@@ -443,7 +385,6 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
           className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
           {...register("capacity")}
           placeholder="capacity"
-          defaultValue={listing.capacity}
         />
         {errors?.capacity?.message && (
           <p className="text-red-500 text-xs py-2">{errors.capacity.message}</p>
@@ -451,9 +392,9 @@ const EditListingForm = ({ listing }: EditListingFormProps) => {
       </div>
 
       {/* Submit form button */}
-      <EditListingFormSubmitButton pending={pending} reset={reset} />
+      <AddListingFormSubmitButton pending={pending} reset={reset} />
     </form>
   );
 };
 
-export default EditListingForm;
+export default ListingForm;

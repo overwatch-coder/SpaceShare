@@ -19,7 +19,7 @@ const ListingCarousel = ({ listingImages }: ListingCarouselProps) => {
   return (
     <Carousel
       id="listing-carousel-container"
-      className="px-8 md:px-0 relative"
+      className="relative"
       opts={{ loop: true }}
       plugins={[Autoplay({ delay: 7000 })]}
     >

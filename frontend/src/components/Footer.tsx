@@ -4,9 +4,11 @@ import Image from "next/image";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 
-const Footer = () => {
+const Footer = ({ classname }: { classname?: string }) => {
   return (
-    <footer className="py-2 bg-primary-dark w-full px-8 md:px-16">
+    <footer
+      className={`py-2 bg-primary-dark w-full px-8 md:px-16 ${classname}`}
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-20 pt-5 pb-4">
         {/* Column 1 */}
         <div className="flex flex-col gap-3">

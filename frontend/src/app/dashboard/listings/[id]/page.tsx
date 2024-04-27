@@ -1,4 +1,4 @@
-import EditListingForm from "@/app/(protected)/dashboard/listings/[id]/EditListingForm";
+import EditListingForm from "@/app/dashboard/listings/[id]/EditListingForm";
 import { getListings } from "@/app/actions/listings.actions";
 import { currentUser } from "@/app/actions/user.actions";
 import { Property } from "@/types/index";
@@ -46,10 +46,10 @@ const EditListing = async ({ params: { id } }: EditListingProps) => {
   }
 
   return (
-    <section className="mt-32 px-8 md:px-16 max-w-4xl mx-auto py-10">
-      <div className="w-full flex flex-col gap-5 shadow-md p-10">
-        <h2 className="font-semibold text-4xl text-pink-500">
-          Edit Listing | {property.name}
+    <section className="px-8 w-full md:px-16 md:max-w-4xl mx-auto py-16 md:py-10">
+      <div className="w-full flex flex-col gap-5 shadow-md p-2 md:p-10">
+        <h2 className="font-semibold text-3xl md:text-4xl text-pink-500">
+          Edit Listing
         </h2>
         <p className="font-medium text-primary-dark/70 text-sm md:text-lg max-w-2xl">
           Edit your listing to SheShare and get better experience on your next

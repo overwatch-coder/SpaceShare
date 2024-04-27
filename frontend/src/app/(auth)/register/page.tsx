@@ -59,8 +59,8 @@ const RegisterPage = () => {
   }
 
   return (
-    <section className="flex flex-col justify-center items-center mt-32 pb-20">
-      <div className="flex flex-col gap-5 p-10 rounded shadow-sm border border-gray-200 bg-white max-w-xl w-full mx-auto">
+    <section className="flex flex-col justify-center items-center w-full py-10">
+      <div className="flex flex-col gap-5 p-10 rounded shadow-sm border border-gray-200 bg-white max-w-3xl w-full mx-auto">
         <h1 className="text-2xl font-bold text-pink-600">Create Account</h1>
         <p className="text-gray-500 text-sm">
           Welcome! Register to make your first booking

@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
 import { bookFormSchema, BookingFormType } from "@/schema/bookings.schema";
-import BookingFormSubmitBtn from "@/app/listings/[id]/BookingFormSubmitBtn";
+import BookingFormSubmitBtn from "@/app/(root)/listings/[id]/BookingFormSubmitBtn";
 import { Property } from "@/types/index";
 import { submitBookingForm } from "@/app/actions/bookings.actions";
 import { useAppDispatch } from "@/lib/hooks";

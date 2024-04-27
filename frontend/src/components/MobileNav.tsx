@@ -1,4 +1,5 @@
 "use client";
+
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MdMenu } from "react-icons/md";
 import Link from "next/link";
@@ -9,6 +10,8 @@ import UserAvatar from "@/components/UserAvatar";
 import { useAuth } from "@/hooks/useAuth";
 import Logout from "@/components/Logout";
 import { usePathname } from "next/navigation";
+import DashboardSidebarMobile from "@/app/dashboard/DashboardSidebarMobile";
+import UserProfile from "@/components/UserProfile";
 
 const MobileNav = () => {
   const { user } = useAuth();
@@ -16,9 +19,17 @@ const MobileNav = () => {
 
   return (
     <Sheet>
-      <SheetTrigger>
-        <MdMenu size={30} color="white" />
-      </SheetTrigger>
+      {user ? (
+        pathname.startsWith("/dashboard") ? (
+          <DashboardSidebarMobile user={user} />
+        ) : (
+          <UserProfile />
+        )
+      ) : (
+        <SheetTrigger>
+          <MdMenu size={30} color="white" />
+        </SheetTrigger>
+      )}
 
       <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll">
         <section className="mb-auto">
@@ -80,7 +91,7 @@ const MobileNav = () => {
                       : "hover:bg-pink-500"
                   }`}
                 >
-                  All Listings
+                  Listings
                 </Link>
 
                 <Link

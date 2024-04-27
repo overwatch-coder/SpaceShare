@@ -1,28 +1,13 @@
 import { z } from "zod";
 
-export const loginSchema = z
-  .object({
-    email: z
-      .string({ required_error: "Email is required" })
-      .email()
-      .trim()
-      .transform((email) => email.toLowerCase()),
-    password: z.string({ required_error: "Password is required" }).trim(),
-    confirmPassword: z
-      .string({
-        required_error: "Confirm Password is required",
-      })
-      .trim(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.password !== data.confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
+export const loginSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .email()
+    .trim()
+    .transform((email) => email.toLowerCase()),
+  password: z.string({ required_error: "Password is required" }).trim(),
+});
 
 export const registerSchema = z
   .object({
