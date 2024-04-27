@@ -1,4 +1,4 @@
-import ListingForm from "@/app/(protected)/add-listing/ListingForm";
+import ListingForm from "@/app/(protected)/dashboard/listings/add-new/ListingForm";
 import { currentUser } from "@/app/actions/user.actions";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";

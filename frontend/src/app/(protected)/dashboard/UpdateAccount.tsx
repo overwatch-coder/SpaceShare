@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ClipLoader from "react-spinners/ClipLoader";
+import arrayUniq from "array-uniq";
 
 const UpdateAccountDetails = () => {
   const router = useRouter();
@@ -177,12 +178,12 @@ const UpdateAccountDetails = () => {
             <label htmlFor="interests">Your Interests Include:</label>
             <input
               type="text"
-              className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
+              className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black capitalize"
               {...register("interests")}
               placeholder="eg: Cooking, Reading, Writing"
               defaultValue={
                 user.interests.length > 0
-                  ? Array.from(new Set(user.interests)).join(", ")
+                  ? arrayUniq(user.interests.map((x) => x.trim())).join(", ")
                   : ""
               }
             />
@@ -198,12 +199,12 @@ const UpdateAccountDetails = () => {
             <label htmlFor="hobbies">Your Hobbies Include:</label>
             <input
               type="text"
-              className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black"
+              className="px-3 py-2 rounded w-full focus:border-2 ring-0 outline-none border border-black capitalize"
               {...register("hobbies")}
               placeholder="eg: Programming, Fishing, Cooking"
               defaultValue={
                 user.hobbies.length > 0
-                  ? Array.from(new Set(user.hobbies)).join(", ")
+                  ? arrayUniq(user.hobbies.map((x) => x.trim())).join(", ")
                   : ""
               }
             />

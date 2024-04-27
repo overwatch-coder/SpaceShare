@@ -29,7 +29,7 @@ const BookingsPage = async () => {
                   }`}
             </p>
 
-            <div className="flex flex-col w-full gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
               {bookings.map((booking) => (
                 <div key={booking._id} className="relative p-3 shadow-md">
                   <div className="flex flex-col gap-4 mb-4">

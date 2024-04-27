@@ -1,6 +1,5 @@
 "use client";
 import Logout from "@/components/Logout";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,7 +10,7 @@ const DashboardSidebar = () => {
     { name: "Account", path: "/dashboard" },
     { name: "Bookings", path: "/dashboard/bookings" },
     { name: "Listings", path: "/dashboard/listings" },
-    { name: "Add Listing", path: "/add-listing" },
+    { name: "Add Listing", path: "/dashboard/listings/add-new" },
   ];
 
   const { user } = useAuth();
@@ -22,33 +21,26 @@ const DashboardSidebar = () => {
       <h1 className="text-xl font-bold capitalize text-white pt-10">
         <Link href="/dashboard">Dashboard</Link>
       </h1>
-      <ul className="flex flex-col gap-5 min-h-screen">
+      <ul className="flex flex-col gap-7 min-h-screen">
         {dashboardLinks.map((link) => {
           const active = pathname === link.path;
           const isUserHost = user?.role === "host";
+          if (!isUserHost && link.path === "/dashboard/listings/add-new")
+            return null;
+          if (!isUserHost && link.path === "/dashboard/listings") return null;
 
           return (
-            <Button
+            <Link
               key={link.path}
-              asChild
-              disabled={
-                isUserHost &&
-                (link.path === "/add-listing" ||
-                  link.path === "/dashboard/listings")
-              }
+              href={link.path}
+              className={`${
+                active
+                  ? "bg-pink-500 rounded"
+                  : "text-pink-500 hover:rounded hover:bg-pink-500"
+              } px-3 py-2 hover:scale-105 transition text-white`}
             >
-              <Link
-                key={link.path}
-                href={link.path}
-                className={`${
-                  active
-                    ? "bg-pink-500 rounded text-white"
-                    : "text-pink-500 hover:text-white hover:rounded hover:bg-pink-500"
-                } px-3 py-2 hover:scale-105 transition`}
-              >
-                {link.name}
-              </Link>
-            </Button>
+              {link.name}
+            </Link>
           );
         })}
 

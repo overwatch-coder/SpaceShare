@@ -67,7 +67,9 @@ const UserInformation = ({ user }: { user: User }) => {
           <span className="font-semibold text-primary-dark">Hobbies:</span>{" "}
           {user.hobbies.length > 0 ? (
             arrayUniq(user.hobbies.map((x) => x.trim())).map((hobby, idx) => (
-              <span key={idx}>{hobby}</span>
+              <span className="capitalize" key={idx}>
+                {hobby}
+              </span>
             ))
           ) : (
             <span>You do not have any hobbies listed</span>
@@ -78,7 +80,9 @@ const UserInformation = ({ user }: { user: User }) => {
           <span className="font-semibold text-primary-dark">Interests:</span>{" "}
           {user.interests.length > 0 ? (
             arrayUniq(user.interests.map((x) => x.trim())).map((interest) => (
-              <span key={interest}>{interest}</span>
+              <span className="capitalize" key={interest}>
+                {interest}
+              </span>
             ))
           ) : (
             <span>You currently do not have any interests listed</span>

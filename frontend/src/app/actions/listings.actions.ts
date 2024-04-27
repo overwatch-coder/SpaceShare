@@ -2,7 +2,11 @@
 
 import { currentUser } from "@/app/actions/user.actions";
 import { convertToFormData } from "@/lib/converstions";
-import { listingSchema, ListingType } from "@/schema/listing.schema";
+import {
+  listingSchema,
+  ListingType,
+  updateListingSchema,
+} from "@/schema/listing.schema";
 import { ResponseType } from "@/types/index";
 import { revalidateTag } from "next/cache";
 
@@ -13,13 +17,20 @@ export const getListings = async (endpoint: string) => {
     headers: {
       "Content-Type": "application/json",
     },
-    next: { revalidate: 3600, tags: ["properties"] },
+    next: {
+      revalidate: 3600,
+      tags: endpoint.includes("/") ? ["properties/id"] : ["properties"],
+    },
   });
 
   const data: ResponseType = await res.json();
 
   if (!data.success) {
     return [];
+  }
+
+  if(endpoint.includes("/")) {
+    revalidateTag("properties/id");
   }
 
   return endpoint.includes("/") ? data.data : data.data.docs;
@@ -46,21 +57,27 @@ export const deleteListing = async (formdata: FormData) => {
 };
 
 // add new listing
-export const submitAddListingForm = async (
+export const submitListingForm = async (
   data: ListingType,
   owner: string,
-  imageData: FormData
+  imageData: FormData,
+  propertyId?: string
 ) => {
   const coverImage = imageData.get("coverImage");
   const images = imageData.getAll("images");
 
   const { token } = await currentUser();
-  const listingValidationResults = listingSchema.safeParse(data);
+
+  const listingValidationResults = propertyId
+    ? updateListingSchema.safeParse(data)
+    : listingSchema.safeParse(data);
 
   if (!listingValidationResults.success) {
     return {
       error: {
-        message: listingValidationResults.error.errors.map(err => err.message)
+        message: listingValidationResults.error.errors.map(
+          (err) => err.message
+        ),
       },
       success: false,
       data: null,
@@ -75,14 +92,18 @@ export const submitAddListingForm = async (
     images,
   });
 
+  const urlPathname = propertyId ? `/properties/${propertyId}` : "/properties";
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/properties`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}${urlPathname}`,
+      {
+        method: propertyId ? "PATCH" : "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
 
     const data: ResponseType = await res.json();
 
@@ -99,6 +120,7 @@ export const submitAddListingForm = async (
     }
 
     revalidateTag("properties");
+    revalidateTag("properties/id");
 
     return {
       error: null,
@@ -109,7 +131,7 @@ export const submitAddListingForm = async (
     };
   } catch (error: any) {
     return {
-      error: {message: error?.message},
+      error: { message: error?.message },
       success: false,
       data: null,
       stack: process.env.NODE_ENV === "development" ? error.stack : null,

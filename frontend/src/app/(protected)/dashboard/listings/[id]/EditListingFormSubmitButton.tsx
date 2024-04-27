@@ -1,18 +1,22 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UseFormReset } from "react-hook-form";
-import { ListingType } from "@/schema/listing.schema";
+import { UpdateListingType } from "@/schema/listing.schema";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useRouter } from "next/navigation";
 
-type AddListingFormSubmitButtonProps = {
+type EditListingFormSubmitButtonProps = {
   pending: boolean;
-  reset: UseFormReset<ListingType>;
+  reset: UseFormReset<UpdateListingType>;
 };
 
-const AddListingFormSubmitButton = ({
+const EditListingFormSubmitButton = ({
   pending,
   reset,
-}: AddListingFormSubmitButtonProps) => {
+}: EditListingFormSubmitButtonProps) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-5 w-full items-center md:flex-row md:justify-between">
       <Button
@@ -22,13 +26,13 @@ const AddListingFormSubmitButton = ({
         {pending ? (
           <ClipLoader size={28} loading={pending} color="white" />
         ) : (
-          "Add Listing"
+          "Edit Listing"
         )}
       </Button>
 
       <Button
         disabled={pending}
-        onClick={() => reset()}
+        onClick={() => router.back()}
         type="reset"
         variant={"destructive"}
         className="text-center w-full"
@@ -39,4 +43,4 @@ const AddListingFormSubmitButton = ({
   );
 };
 
-export default AddListingFormSubmitButton;
+export default EditListingFormSubmitButton;

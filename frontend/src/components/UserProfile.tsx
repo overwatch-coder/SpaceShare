@@ -7,11 +7,30 @@ import logo from "@/assets/logo2.png";
 import UserAvatar from "@/components/UserAvatar";
 import Logout from "@/components/Logout";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const UserProfile = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const profileLinks = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Bookings", path: "/dashboard/bookings" },
+    { name: "Share A Room", path: "/dashboard/listings/add-new" },
+    { name: "Rent A Room", path: "/listings" },
+  ];
+
+  useEffect(() => {
+    if (pathname) {
+      setIsOpen(false);
+    }
+
+    return () => {
+      setIsOpen(false);
+    };
+  }, [pathname]);
+
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <SheetTrigger>
         <UserAvatar />
       </SheetTrigger>
@@ -50,38 +69,19 @@ const UserProfile = () => {
                   Manage Profile
                 </p>
 
-                <Link
-                  href={"/dashboard"}
-                  className={`text-white py-2 transition px-4 hover:scale-105 ${
-                    pathname === "/dashboard"
-                      ? "bg-pink-500"
-                      : "hover:bg-pink-500"
-                  }`}
-                >
-                  Dashboard
-                </Link>
-
-                <Link
-                  href={"/listings"}
-                  className={`text-white py-2 transition px-4 hover:scale-105 ${
-                    pathname === "/listings"
-                      ? "bg-pink-500"
-                      : "hover:bg-pink-500"
-                  }`}
-                >
-                  Rent A Room
-                </Link>
-
-                <Link
-                  href={"/add-listing"}
-                  className={`text-white py-2 transition px-4 hover:scale-105 ${
-                    pathname === "/add-listing"
-                      ? "bg-pink-500"
-                      : "hover:bg-pink-500"
-                  }`}
-                >
-                  Share A Room
-                </Link>
+                {profileLinks.map((link, idx) => (
+                  <Link
+                    key={idx}
+                    href={link.path}
+                    className={`text-white py-2 transition px-4 hover:scale-105 ${
+                      pathname === link.path
+                        ? "bg-pink-500"
+                        : "hover:bg-pink-500"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
               </div>
             </div>
           </nav>

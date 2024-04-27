@@ -98,9 +98,9 @@ const MobileNav = () => {
                 </Link>
 
                 <Link
-                  href={"/add-listing"}
+                  href={"/dashboard/listings/add-new"}
                   className={`text-white py-2 transition px-4 hover:scale-105 ${
-                    pathname === "/add-listing"
+                    pathname === "/dashboard/listings/add-new"
                       ? "bg-pink-500"
                       : "hover:bg-pink-500"
                   }`}
