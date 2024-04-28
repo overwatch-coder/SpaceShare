@@ -105,6 +105,21 @@ const LoginPage = () => {
           {/* Submit form button */}
           <LoginSubmitButton pending={pending} reset={reset} />
 
+          <div className="flex flex-col gap-3">
+            <h3>Demo Login</h3>
+            <p className="text-sm text-gray-500 flex flex-col gap-2">
+              <span className="text-primary-dark">
+                Email (Client): vercel.camera564@aleeas.com
+              </span>
+              <span className="text-primary-dark">
+                Email (Host): localhost.crux469@aleeas.com{" "}
+              </span>
+            </p>
+            <p className="text-sm text-gray-500">
+              Password (Both): Test12345@@
+            </p>
+          </div>
+
           <div className="flex justify-center py-2">
             <p className="text-sm text-gray-500">
               Don&apos;t have an account yet?{" "}

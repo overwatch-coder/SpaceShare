@@ -8,10 +8,10 @@ const UserAvatar = ({ nameClass }: { nameClass?: string }) => {
   const defaultUrl =
     "https://res.cloudinary.com/cloudinary/image/upload/v1667394529/avatars/avatars/default.png";
   const userProfiePicture =
-    user && user?.profilePicture ? user.profilePicture : defaultUrl;
-  const initialsArray = user ? user?.name.split(" ")! : null;
+    user && user.profilePicture ? user.profilePicture : defaultUrl;
+  const initialsArray = user ? user.name.split(" ") : ["Guest", "User"];
   const fallBackName = initialsArray
-    ? `${initialsArray[0].charAt(0)}${initialsArray[1].charAt(0)}`
+    ? `${initialsArray[0]?.charAt(0)}${initialsArray[1]?.charAt(0)}`
     : "SS";
 
   return (
