@@ -52,10 +52,10 @@ const HomePage = async () => {
       {/* Progress Counter */}
       <ProgressCounter />
 
-      {/* Recent Listings for Rental */}
+      {/* Featured Listings for Rental */}
       <section className="flex flex-col gap-5 px-8 md:px-16 py-5">
         <h2 className="font-semibold text-3xl text-pink-500">
-          Recent Listings
+          Featured Listings
         </h2>
         <p className="font-medium text-primary-dark/70 text-sm md:text-lg max-w-2xl">
           We aim to make the rental process straightforward and transparent,
@@ -72,9 +72,12 @@ const HomePage = async () => {
         ) : (
           <div className="flex flex-col gap-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-              {properties.slice(0, 4).map((property) => (
-                <Listing key={property._id} property={property} />
-              ))}
+              {properties
+                .filter((prop) => prop.isFeatured === true)
+                .slice(0, 4)
+                .map((property) => (
+                  <Listing key={property._id} property={property} />
+                ))}
             </div>
 
             <Link
