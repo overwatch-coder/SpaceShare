@@ -39,8 +39,8 @@ const BreadCrumpLinks = ({ lastLink }: { lastLink?: string }) => {
   const breadcrumps = generateBreadcrumbs();
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
+    <Breadcrumb className="flex flex-col items-center mx-auto">
+      <BreadcrumbList className="text-center mx-auto w-full">
         {breadcrumps
           .slice(0, breadcrumps.length - 1)
           .map((breadcrump, index) => (

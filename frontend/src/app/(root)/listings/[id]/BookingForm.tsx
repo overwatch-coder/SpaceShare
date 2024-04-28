@@ -78,12 +78,8 @@ const BookingForm = ({ property }: BookingFormProps) => {
             type="date"
             className="px-10 py-2 rounded text-black placeholder:text-sm w-full focus:border-0 ring-0 outline-none"
             {...register("checkInDate")}
-            min={
-              new Date(property.minAvailableDate).toISOString().split("T")[0]
-            }
-            max={
-              new Date(property.maxAvailableDate).toISOString().split("T")[0]
-            }
+            min={property.minAvailableDate.split("T")[0]}
+            max={property.maxAvailableDate.split("T")[0]}
           />
         </div>
         {errors?.checkInDate?.message && (
@@ -105,12 +101,8 @@ const BookingForm = ({ property }: BookingFormProps) => {
             type="date"
             className="px-10 py-2 rounded text-black placeholder:text-sm w-full focus:border-0 ring-0 outline-none"
             {...register("checkOutDate")}
-            min={
-              new Date(property.minAvailableDate).toISOString().split("T")[0]
-            }
-            max={
-              new Date(property.maxAvailableDate).toISOString().split("T")[0]
-            }
+            min={property.minAvailableDate.split("T")[0]}
+            max={property.maxAvailableDate.split("T")[0]}
           />
         </div>
         {errors?.checkOutDate?.message && (
@@ -130,7 +122,7 @@ const BookingForm = ({ property }: BookingFormProps) => {
             {...register("numberOfGuests")}
           >
             <option>Number of People</option>
-            {Array.from({ length: 6 }, (_, i) => i + 1).map((num) => (
+            {Array.from({ length: 7 }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
                 0{num}
               </option>
