@@ -33,9 +33,9 @@ const DashboardSidebarMobile = ({ user }: { user: UserType }) => {
 
       <SheetContent
         side="left"
-        className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll md:hidden pb-16"
+        className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll md:hidden pb-10"
       >
-        <section className="mb-auto">
+        <section>
           {/* Logo */}
           <div className="flex flex-col gap-3">
             <Link href={"/"} className="flex items-center mx-auto">

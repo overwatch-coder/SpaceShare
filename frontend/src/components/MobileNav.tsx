@@ -31,8 +31,8 @@ const MobileNav = () => {
         </SheetTrigger>
       )}
 
-      <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll">
-        <section className="mb-auto">
+      <SheetContent className="bg-primary-dark flex flex-col gap-3 min-h-screen overflow-y-scroll pb-5">
+        <section>
           {/* Logo */}
           <div className="flex flex-col gap-3">
             <Link href={"/"} className="flex items-center mx-auto">
@@ -55,25 +55,24 @@ const MobileNav = () => {
           </div>
 
           {/* Nav */}
-          <nav className="flex flex-col gap-5 mt-5">
-            {!user ||
-              (user === null && (
-                <div className="flex-col gap-3">
-                  <Link
-                    href={"/login"}
-                    className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
-                  >
-                    Login
-                  </Link>
+          <nav className="flex flex-col gap-4 mt-2">
+            {user === null && (
+              <div className="flex flex-col gap-3 w-full">
+                <Link
+                  href={"/login"}
+                  className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
+                >
+                  Login
+                </Link>
 
-                  <Link
-                    href={"/register"}
-                    className="border-pink-400 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
-                  >
-                    Register
-                  </Link>
-                </div>
-              ))}
+                <Link
+                  href={"/register"}
+                  className="border-pink-500 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
 
             <div className="flex flex-col gap-5">
               {user && <UserAvatar />}
