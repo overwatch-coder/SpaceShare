@@ -11,7 +11,7 @@ import {
 } from "@/schema/user.schema";
 import { ResponseType, User } from "@/types/index";
 import age from "@whitetrefoil/s-age-ts";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 // currently logged in user details
@@ -27,6 +27,7 @@ export const currentUser = async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    next: { tags: ["users"] },
   });
 
   const data: ResponseType = await res.json();
@@ -166,6 +167,7 @@ export const updateAccount = async (data: UpdateUserType) => {
 
     const result: ResponseType = await res.json();
 
+    revalidateTag("users");
     revalidatePath("/dashboard");
     return result;
   } catch (error: any) {
@@ -196,6 +198,7 @@ export const updateAvatar = async (formData: FormData) => {
 
   const data: ResponseType = await res.json();
 
+  revalidateTag("users");
   revalidatePath("/dashboard");
   return data;
 };

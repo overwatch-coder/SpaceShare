@@ -12,7 +12,9 @@ const UserInformation = ({ user }: { user: User }) => {
         </p>
 
         <p className="text-gray-600">
-          <span className="font-semibold text-primary-dark">Username:</span>{" "}
+          <span className="font-semibold text-primary-dark capitalize">
+            Username:
+          </span>{" "}
           {user.username}
         </p>
       </div>

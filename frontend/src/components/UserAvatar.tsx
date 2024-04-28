@@ -24,7 +24,7 @@ const UserAvatar = ({ nameClass }: { nameClass?: string }) => {
         <AvatarImage src={userProfiePicture} />
         <AvatarFallback>{fallBackName.toUpperCase()}</AvatarFallback>
       </Avatar>
-      <p className={`text-white text-lg ${nameClass}`}>
+      <p className={`text-white text-lg capitalize ${nameClass}`}>
         {user?.username || "Guest"}
       </p>
     </div>
