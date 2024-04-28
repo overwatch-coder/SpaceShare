@@ -35,7 +35,7 @@ const UserProfile = () => {
         <UserAvatar nameClass="hidden md:block" />
       </SheetTrigger>
 
-      <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll">
+      <SheetContent className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll pb-16">
         <section className="mb-auto">
           {/* Logo */}
           <div className="flex flex-col gap-3">

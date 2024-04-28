@@ -33,7 +33,7 @@ const DashboardSidebarMobile = ({ user }: { user: UserType }) => {
 
       <SheetContent
         side="left"
-        className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll md:hidden"
+        className="bg-primary-dark flex flex-col min-h-screen overflow-y-scroll md:hidden pb-16"
       >
         <section className="mb-auto">
           {/* Logo */}

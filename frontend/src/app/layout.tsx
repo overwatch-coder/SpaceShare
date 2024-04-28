@@ -4,6 +4,8 @@ import StoreProvider from "@/app/providers/StoreProvider";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
+export const dynamic = "force-dynamic";
+
 export default function AppLayout({
   children,
 }: Readonly<{

@@ -19,7 +19,7 @@ const MobileNav = () => {
 
   return (
     <Sheet>
-      {user ? (
+      {user || user !== null ? (
         pathname.startsWith("/dashboard") ? (
           <DashboardSidebarMobile user={user} />
         ) : (
@@ -56,23 +56,24 @@ const MobileNav = () => {
 
           {/* Nav */}
           <nav className="flex flex-col gap-5 mt-5">
-            {!user && (
-              <div className="hidden flex-col gap-3">
-                <Link
-                  href={"/login"}
-                  className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
-                >
-                  Login
-                </Link>
+            {!user ||
+              (user === null && (
+                <div className="flex-col gap-3">
+                  <Link
+                    href={"/login"}
+                    className="bg-pink-500 rounded-md uppercase text-white py-2 px-5 text-center hover:scale-105 transition"
+                  >
+                    Login
+                  </Link>
 
-                <Link
-                  href={"/register"}
-                  className="border-pink-400 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
+                  <Link
+                    href={"/register"}
+                    className="border-pink-400 border bg-transparent rounded-md uppercase text-pink-400 py-2 px-5 text-center hover:scale-105 transition"
+                  >
+                    Register
+                  </Link>
+                </div>
+              ))}
 
             <div className="flex flex-col gap-5">
               {user && <UserAvatar />}
