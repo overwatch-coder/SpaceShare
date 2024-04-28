@@ -29,9 +29,11 @@ export const getListings = async (endpoint: string) => {
     return [];
   }
 
-  if(endpoint.includes("/")) {
+  if (endpoint.includes("/")) {
     revalidateTag("properties/id");
   }
+
+  revalidateTag("properties");
 
   return endpoint.includes("/") ? data.data : data.data.docs;
 };
