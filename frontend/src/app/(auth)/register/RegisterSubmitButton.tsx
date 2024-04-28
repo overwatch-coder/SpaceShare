@@ -31,7 +31,7 @@ const RegisterSubmitButton = ({
 
       <Button
         disabled={pending}
-        onClick={() => router.back()}
+        onClick={() => router.replace('/')}
         type="reset"
         variant={"secondary"}
         className="text-center w-full"
