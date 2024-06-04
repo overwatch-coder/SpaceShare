@@ -4,8 +4,8 @@ Creating an Airbnb website, named Spaceshare. The website aims to connect people
 
 # API DOCS URL
 
-[Spaceshare API Docs](https://api-spaceshare.onrender.com)
+[SpaceShare API Docs](https://api-spaceshare.onrender.com)
 
 # Frontend URL
 
-[Spaceshare Vacation Rentals](https://spaceshare.onrender.com)
+[SpaceShare Vacation Rentals](https://spaceshare.onrender.com)
