@@ -72,11 +72,13 @@ const Listings = () => {
     if (formSearch) {
       setNewSearchParams.set("search", formSearch);
       router.push(
-        `/listings?limit=${limit}&sortBy=${sortBy}&page=${page}&search=${formSearch}`
+        `/listings?limit=${limit}&sortBy=${sortBy}&search=${formSearch}`
       );
     } else {
       router.push(`/listings?limit=${limit}&sortBy=${sortBy}&page=${page}`);
     }
+
+    setFormSearch("");
   };
 
   return (

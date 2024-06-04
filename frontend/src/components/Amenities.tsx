@@ -1,11 +1,6 @@
 import React from "react";
-import { FaWifi } from "react-icons/fa";
-import { CgGym } from "react-icons/cg";
-import { PiTelevisionSimple } from "react-icons/pi";
-import { TbAirConditioning } from "react-icons/tb";
-import { GiWashingMachine } from "react-icons/gi";
-import { MdPool } from "react-icons/md";
-import { GiHomeGarage } from "react-icons/gi";
+import Link from "next/link";
+import { amenities } from "@/constants";
 
 const Amenities = () => {
   return (
@@ -17,34 +12,16 @@ const Amenities = () => {
       </p>
 
       <div className="flex items-start md:items-center gap-5 flex-wrap justify-center">
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <PiTelevisionSimple size={30} />
-          <span className="font-semibold">TV</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <TbAirConditioning size={30} />
-          <span className="font-semibold">Air Conditioning</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <CgGym size={30} />
-          <span className="font-semibold">Gym</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <GiWashingMachine size={30} />
-          <span className="font-semibold">Washing Machine</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <MdPool size={30} />
-          <span className="font-semibold">Pool</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <GiHomeGarage size={30} />
-          <span className="font-semibold">Garage</span>
-        </p>
-        <p className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer">
-          <FaWifi size={30} />
-          <span className="font-semibold">Wifi</span>
-        </p>
+        {amenities.map((amenity, index) => (
+          <Link
+            key={index}
+            href={`/listings?search=${amenity.name.toLowerCase()}`}
+            className="w-32 flex flex-col gap-4 items-center text-center p-4 rounded-md hover:shadow-md cursor-pointer"
+          >
+            <amenity.icon size={30} />
+            <span className="font-semibold">{amenity.name}</span>
+          </Link>
+        ))}
       </div>
     </section>
   );
