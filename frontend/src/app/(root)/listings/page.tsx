@@ -1,6 +1,4 @@
-import { getListings } from "@/app/actions/listings.actions";
-import Listing from "@/components/Listing";
-import { Property } from "@/types/index";
+import Listings from "@/app/(root)/listings/Listings";
 import { Metadata } from "next";
 import React from "react";
 
@@ -10,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 const ListingPage = async () => {
-  const properties: Property[] = await getListings("properties");
   return (
     <div className="px-8 md:px-16 mt-32 flex flex-col gap-5 py-10">
       <h2 className="font-semibold text-4xl text-pink-500">All Listings</h2>
@@ -20,19 +17,7 @@ const ListingPage = async () => {
         from start to finish.
       </p>
 
-      {properties.length === 0 ? (
-        <div className="py-5 text-center mx-auto">
-          <p className="text-xl text-center font-semibold">
-            Sorry, No Listings Available
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-          {properties.map((property) => (
-            <Listing key={property._id} property={property} />
-          ))}
-        </div>
-      )}
+      <Listings />
     </div>
   );
 };

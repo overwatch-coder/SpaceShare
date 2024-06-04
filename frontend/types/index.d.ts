@@ -67,6 +67,19 @@ export type Property = {
   _id: string;
 };
 
+export type PropertyDocs = {
+  docs: Property[];
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
+};
+
 // booking type
 export type Booking = {
   checkInDate: string;
@@ -84,7 +97,6 @@ export type CreateBooking = Pick<
   Booking,
   "checkInDate" | "checkOutDate" | "numberOfGuests" | "status"
 > & { property: string; client: string };
-
 
 export type ResponseType = {
   error?: {

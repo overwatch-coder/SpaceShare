@@ -11,7 +11,7 @@ import { ResponseType } from "@/types/index";
 import { revalidateTag } from "next/cache";
 
 // get all properties/listings available
-export const getListings = async (endpoint: string) => {
+export const getListings = async (endpoint: string, pagination?: boolean) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, {
     method: "GET",
     headers: {
@@ -35,7 +35,11 @@ export const getListings = async (endpoint: string) => {
 
   revalidateTag("properties");
 
-  return endpoint.includes("/") ? data.data : data.data.docs;
+  return endpoint.includes("/")
+    ? data.data
+    : pagination
+    ? data.data
+    : data.data.docs;
 };
 
 // delete listing
