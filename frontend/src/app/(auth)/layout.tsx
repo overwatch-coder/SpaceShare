@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Authenticate | Spaceshare Vacation Rentals",
-  description: "Login / Sign Up to gain access to Spaceshare Vacation Rentals",
+  title: "Authenticate | SpaceShare Vacation Rentals",
+  description: "Login / Sign Up to gain access to SpaceShare Vacation Rentals",
   icons: [
     {
       rel: "icon",

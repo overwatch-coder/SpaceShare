@@ -28,7 +28,7 @@ const DashboardSidebar = () => {
             className="object-contain"
           />
           <p className="font-semibold flex flex-col">
-            <span className="text-pink-400 text-xl">Spaceshare</span>
+            <span className="text-pink-400 text-xl">SpaceShare</span>
             <span className="text-xs text-white">Vacation Rentals</span>
           </p>
         </Link>

@@ -13,7 +13,7 @@ type DashboardLayoutProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Dashboard - Spaceshare Vacation Rentals",
+  title: "Dashboard - SpaceShare Vacation Rentals",
   description: "Manage your account, rentals and bookings with ease",
   icons: [
     {

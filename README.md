@@ -1,6 +1,6 @@
 # SpaceShare
 
-Creating an Airbnb website, named Spaceshare. The website aims to connect people who want to rent their properties with people who are looking for accommodations.
+Creating an Airbnb website, named SpaceShare. The website aims to connect people who want to rent their properties with people who are looking for accommodations.
 
 # API DOCS URL
 

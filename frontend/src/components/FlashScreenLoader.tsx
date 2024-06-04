@@ -15,7 +15,7 @@ const FlashScreenLoader = () => {
         className="object-contain animate-bounce"
       />
       <p className="font-semibold flex flex-col animate-bounce">
-        <span className="text-pink-500 text-xl">Spaceshare</span>
+        <span className="text-pink-500 text-xl">SpaceShare</span>
         <span className="text-xs text-white">Vacation Rentals</span>
       </p>
     </div>

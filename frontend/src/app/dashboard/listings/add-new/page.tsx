@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Add Listing - Spaceshare",
-  description: "Add your listing to Spaceshare",
+  title: "Add Listing - SpaceShare",
+  description: "Add your listing to SpaceShare",
 };
 
 const AddListing = async () => {
@@ -26,7 +26,7 @@ const AddListing = async () => {
           Add New Listing
         </h2>
         <p className="font-medium text-primary-dark/70 text-sm md:text-lg max-w-2xl">
-          Add your listing to Spaceshare and get started on your next rental. It
+          Add your listing to SpaceShare and get started on your next rental. It
           only takes a few minutes.
         </p>
 

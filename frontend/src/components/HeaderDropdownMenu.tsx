@@ -15,7 +15,7 @@ const HeaderNavigationMenu = () => {
         Explore
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-primary-dark text-white">
-        <DropdownMenuLabel>Explore Spaceshare</DropdownMenuLabel>
+        <DropdownMenuLabel>Explore SpaceShare</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link className="w-full" href="#welcome">

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "404 | Page Not Found - Spaceshare Vacation Rentals",
+  title: "404 | Page Not Found - SpaceShare Vacation Rentals",
   description: "Page Not Found",
 };
 

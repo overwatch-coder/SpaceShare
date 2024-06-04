@@ -46,7 +46,7 @@ const MobileNav = () => {
                 className="object-contain"
               />
               <p className="font-semibold flex flex-col">
-                <span className="text-pink-400 text-xl">Spaceshare</span>
+                <span className="text-pink-400 text-xl">SpaceShare</span>
                 <span className="text-xs text-white">Vacation Rentals</span>
               </p>
             </Link>
@@ -80,7 +80,7 @@ const MobileNav = () => {
               {/* Links */}
               <div className="flex flex-col gap-5 pt-5">
                 <p className="text-white font-semibold text-lg py-3 border-b-2 border-white/70">
-                  Explore Spaceshare
+                  Explore SpaceShare
                 </p>
 
                 <Link

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Spaceshare Vacation Rentals",
+  title: "SpaceShare Vacation Rentals",
   description:
     "Connecting women who want to rent their properties with women who are looking for accommodations",
 };
