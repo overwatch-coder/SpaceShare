@@ -27,7 +27,7 @@ export const getAllProperties = asyncHandler(
       any,
       any,
       any,
-      { page?: string; limit?: string; search?: string; sortBy: string }
+      { page?: string; limit?: string; search?: string; sortBy?: string }
     >,
     res: Response
   ) => {
