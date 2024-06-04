@@ -71,7 +71,7 @@ export const protectUser = asyncHandler(
   }
 );
 
-// check if logged in user is an merchant
+// check if logged in user is a host
 export const protectHost = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { role } = req.user;
