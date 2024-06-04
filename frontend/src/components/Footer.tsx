@@ -23,11 +23,11 @@ const Footer = ({ classname }: { classname?: string }) => {
               className="object-cover hidden"
             />
             <h2 className="font-semibold text-pink-400 text-lg border-b-2 border-white/70 w-fit mb-3">
-              SheShare
+              Spaceshare
             </h2>
 
             <p className="text-sm font-semibold italic hidden">
-              SheShare your space, SheShare your story
+              Spaceshare your space, Spaceshare your story
             </p>
             <Separator className="my-2 bg-secondary-pink hidden" />
             <div className="flex flex-col gap-4">
@@ -158,7 +158,7 @@ const Footer = ({ classname }: { classname?: string }) => {
       <div className="pt-5 pb-2 text-center text-sm font-medium">
         <Separator className="my-2 bg-white/70" />
         <p className="text-white/80 pt-2">
-          Copyright &copy; {new Date().getFullYear()} SheShare
+          Copyright &copy; {new Date().getFullYear()} Spaceshare
         </p>
       </div>
     </footer>

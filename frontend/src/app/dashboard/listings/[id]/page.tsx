@@ -52,7 +52,7 @@ const EditListing = async ({ params: { id } }: EditListingProps) => {
           Edit Listing
         </h2>
         <p className="font-medium text-primary-dark/70 text-sm md:text-lg max-w-2xl">
-          Edit your listing to SheShare and get better experience on your next
+          Edit your listing to Spaceshare and get better experience on your next
           rental. It only takes a few minutes.
         </p>
 

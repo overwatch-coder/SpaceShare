@@ -50,7 +50,7 @@ const BookingForm = ({ property }: BookingFormProps) => {
 
     Swal.fire({
       title: "Thank you!",
-      text: "SheShare Rental Booking Successful.",
+      text: "Spaceshare Rental Booking Successful.",
       icon: "success",
       timer: 4000,
       timerProgressBar: true,

@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backed api documentation for sheShare",
+  "description": "Backed api documentation for spaceshare",
   "main": "src/index.ts",
   "_moduleAliases": {
     "@": "dist"

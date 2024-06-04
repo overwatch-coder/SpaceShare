@@ -16,9 +16,9 @@ const HomePage = async () => {
       >
         <div className="mt-24 md:mt-32 flex flex-col gap-6 md:gap-8 justify-center items-center max-w-2xl mx-auto">
           <p className="text-center tracking-wider font-medium text-white uppercase">
-            <span className="text-pink-600">SheShare</span> Your Space,{" "}
+            <span className="text-pink-600">Share</span> Your Space,{" "}
             <br className="md:hidden" />
-            <span className="text-pink-600">SheShare</span> Your Story
+            <span className="text-pink-600">Share</span> Your Story
           </p>
 
           <h2 className="text-center font-bold text-4xl md:text-6xl text-white">
