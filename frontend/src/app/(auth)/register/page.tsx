@@ -126,8 +126,8 @@ const RegisterPage = () => {
               defaultValue={role}
             >
               <option>Select one</option>
-              <option value="client">To Rent A Room</option>
-              <option value="host">To Share A Room</option>
+              <option value="client">To Rent A Space</option>
+              <option value="host">To Share A Space</option>
             </select>
             {errors?.role?.message && (
               <p className="text-red-500 text-xs py-2">{errors.role.message}</p>
