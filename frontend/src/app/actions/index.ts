@@ -3,11 +3,12 @@
 import { cookies, headers } from "next/headers";
 
 // set cookie
-export const setCookie = (res: Response, logout: boolean = false) => {
+export const setCookie = async (res: Response, logout: boolean = false) => {
   const cookieStore = cookies();
 
   if (logout) {
     cookieStore.set("access_token", "");
+    cookieStore.delete("access_token");
     return;
   } else {
     //   check if cookies is present in headers

@@ -13,7 +13,8 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
+    console.error({ error });
+    console.log({ message: error.message, name: error.name });
   }, [error]);
 
   return (
@@ -26,6 +27,8 @@ export default function Error({
         <h2 className="text-4xl font-bold text-primary-dark">
           Something went wrong!
         </h2>
+
+        <small>Manually refresh the page if the issue persists</small>
 
         <div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-5">
           <button

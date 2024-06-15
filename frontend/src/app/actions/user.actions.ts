@@ -64,7 +64,7 @@ export const loginFormSubmit = async (data: Login) => {
 
     const result: ResponseType = await res.json();
 
-    setCookie(res);
+    await setCookie(res);
 
     return result;
   } catch (error: any) {
@@ -116,7 +116,7 @@ export const registerFormSubmit = async (data: Register) => {
 
     const result: ResponseType = await res.json();
 
-    setCookie(res);
+    await setCookie(res);
 
     return result;
   } catch (error: any) {
@@ -252,7 +252,7 @@ export const logout = async () => {
 
   const data: ResponseType = await res.json();
 
-  setCookie(res, true);
+  await setCookie(res, true);
 
   return data;
 };
