@@ -14,6 +14,7 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import fileUpload from "express-fileupload";
+import cron from "node-cron";
 
 // import config
 import { connectDB } from "@/config/db.config";
@@ -64,6 +65,19 @@ const initializeServer = async () => {
   );
 
   // routes
+
+  // cron job
+  app.get('/', (req, res) => {
+    cron.schedule('*/2 * * * *', () => {
+      console.log('running a task every 2 minutes');
+    });
+    
+    res.status(200).json({
+      message: "server is running",
+      success: true,
+    });
+  });
+
   app.use("/api/users", userRoutes);
   app.use("/api/auth", authRoutes);
   app.use("/api/properties", propertyRoutes);
